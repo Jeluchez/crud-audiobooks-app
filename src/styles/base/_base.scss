@@ -1,0 +1,45 @@
+* {
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 0;
+}
+
+input{
+    border: none;
+    outline: none;
+}
+
+// remove input background when active
+// input:-webkit-autofill,
+// input:-webkit-autofill:hover,
+// input:-webkit-autofill:focus,
+// input:-webkit-autofill:active {
+//     box-shadow: 0 0 0 30px white inset !important;
+// }
+
+button {
+    border: none;
+    &:focus {
+        border: none;
+        outline: none;
+    }
+}
+
+.mt-1 {
+    margin-top: 5px;
+}
+
+.mt-5 {
+    margin-top: 20px;
+}
+
+.mb-1 {
+    margin-bottom: 5px;
+}
+
+.mbs-5 {
+    margin-bottom: 20px;
+}
+
+.pointer {
+    cursor: pointer;
+}

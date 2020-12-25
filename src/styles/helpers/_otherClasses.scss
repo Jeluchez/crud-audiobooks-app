@@ -1,0 +1,14 @@
+.is-valid{
+    border: 1px solid #09e701;
+    box-shadow:  #09e701 0px 0px 5px;
+}
+.is-invalid{
+    border: 1px solid #ff1919 !important;
+    box-shadow:  #ff1919 0px 0px 5px ;
+}
+.hidden{
+    display: none;
+}
+.visible{
+    display: block;
+}

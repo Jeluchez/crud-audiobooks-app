@@ -1,0 +1,14 @@
+.book-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    td > div, thead td > div {
+        width: max-content;
+    }
+    tr > td, tr >th{
+       padding-left: 10px;
+    }
+    // tr > td:nth-child(2){
+    //     width: 100px
+    // }
+}
