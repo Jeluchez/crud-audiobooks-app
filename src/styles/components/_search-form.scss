@@ -1,6 +1,14 @@
 .searchform__container {
     background: $black;
-    color: $white
+    color: $white;
+    box-shadow: 0 10px 5px #000;
+    box-sizing: content-box;
+}
+
+.outer-contentype {
+    overflow: hidden;
+    border-bottom: 1px solid $gray;
+
 }
 
 .searchform__contentype {
@@ -8,18 +16,26 @@
     width: 100%;
     gap: 5px;
     grid-template-columns: repeat(auto-fit, minmax(max-content, 0));
-    padding: rem(10);
+    padding: rem(15) rem(10);
+    background: $black;
+    transition: 0.3s all ease-in-out;
 }
 
 .searchform__search {
     border-bottom: 1px solid $gray;
     background: $light-black;
-    position: relative;
+    height: 50px;
 
     .typeitem {
         background: $black;
         transition: 0.8s all;
+        animation: 2s forwards addType;
+        color: #fff;
     }
+}
+
+.searchform__form {
+    position: relative;
 }
 
 .selected-item-container {
@@ -30,12 +46,14 @@
 .input-search {
     display: flex;
     flex: 1 1 100%;
+
     input {
         background: $light-black;
         height: rem(30);
         margin-left: rem(10);
         transition: 0.2s all;
     }
+
     &::placeholder {
         /* Chrome, Firefox, Opera, Safari 10.1+ */
         color: $white;
@@ -56,6 +74,25 @@
     transition: 0.3s all;
 }
 
+// class to transition in javascript
 .hideWith {
     flex-basis: 0;
+}
+
+.moveDown {
+    margin-top: -70px;
+}
+
+@keyframes addType {
+    0% {
+        background: $red;
+    }
+
+    50% {
+        background: $black;
+    }
+
+    100% {
+        background: $primary;
+    }
 }

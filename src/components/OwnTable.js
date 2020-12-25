@@ -58,6 +58,7 @@ export const OwnTable = () => {
             const percentBreakPoint = calcBreakPoint(DivMaxwidth);
             // console.log(percentBreakPoint);
             if (percentBreakPoint >= 90) {
+                // break point to serve to again show the column
                 const breakPoint = bookTable.current.offsetWidth + DivMaxwidth.parentNode.offsetWidth;
                 hideCol(breakPoint);
             }

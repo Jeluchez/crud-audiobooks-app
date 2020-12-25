@@ -1,0 +1,74 @@
+.ant-table {
+    padding-top: rem(20);
+    background: $black;
+}
+
+.table__row {
+    background: $black;
+    color: $white;
+}
+
+.ant-table-tbody>tr>td {
+    border-bottom: 1px solid $gray;
+}
+
+.ant-table-thead>tr>th {
+    background-color: $black !important;
+    border-bottom: 1px solid $gray;
+    color: $light-gray;
+}
+
+.ant-table-tbody>tr:hover>td {
+
+    background-color: $hover-black !important;
+    color: #fff;
+}
+
+tr.ant-table-expanded-row > td, tr.ant-table-expanded-row:hover > td {
+    background: $hover-black;
+    color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              buttons and links                             */
+/* -------------------------------------------------------------------------- */
+
+.ant-pagination-disabled .ant-pagination-item-link,
+.ant-pagination-disabled:hover .ant-pagination-item-link,
+.ant-pagination-disabled:focus .ant-pagination-item-link {
+    background-color: $light-black;
+    color: $white;
+    border: none;
+}
+
+a:not([href]):not([class]) {
+    background-color: $light-black;
+    color: $white;
+    border: none;
+}
+
+.ant-pagination-item-active {
+    border: none;
+    background: none;
+}
+// checkbox
+.ant-checkbox-inner,.ant-checkbox-indeterminate .ant-checkbox-inner {
+    background: $black;
+    border: 2px solid $white;
+    width: rem(18);
+    height: rem(18);
+    border-radius: 5px;
+}
+
+// .ant-checkbox-indeterminate {}
+// selected table
+.ant-table-tbody > tr.ant-table-row-selected > td {
+    background-color: $hover-black !important;
+    color: #fff;
+}
+.ant-table-row-expand-icon::before, .ant-table-row-expand-icon::after{
+
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled){
+    background: $black;
+}
