@@ -1,18 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Table } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { FormContext } from '../contex/FormContext';
+import { fetchData } from '../helper/fetch';
+import { mapData } from '../helper/iterateData';
 
 const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name', sorter: (a, b) => a.age - b.age, },
-    { title: 'Age', dataIndex: 'age', key: 'age' },
-    { title: 'Address', dataIndex: 'address', key: 'address', responsive: ['sm'], },
-    // {
-    //     title: 'Action',
-    //     dataIndex: '',
-    //     key: 'x',
-    //     render: () => <a href="/#">Delete</a>,
-    // },
+    { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title['es-MX'] - b.title['es-MX'], },
+    { title: 'Conten Type', dataIndex: 'contentType', key: 'contentType', responsive: ['lg'] },
+    { title: 'Updated', dataIndex: 'updated', key: 'updated', responsive: ['md'], sorter: (a, b) => a.street_date - b.street_date },
+    { title: 'Authors', dataIndex: 'authors', key: 'authors', responsive: ['sm'] },
+    { title: 'Cost per play', dataIndex: 'costPerPlay', key: 'costPerPlay', sorter: (a, b) => a.title - b.title },
+    { title: 'Cover', dataIndex: 'cover', key: 'cover', responsive: ['md'] },
 ];
 
 const data = [
@@ -51,13 +50,21 @@ export const AudioBooksTable = ({ showConfirm }) => {
 
 
     const { showModal, handleOk, handleCancel, isModalVisible, setIsModalVisible } = useContext(FormContext);
-    
+
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
     });
-
     const { selectedRowKeys } = stateSelect;
 
+    const [audioBooks, setAudioBooks] = useState(null);
+
+    useEffect(() => {
+        fetchData().then(({ items }) => {
+            const ab = mapData(items);
+            console.log(ab);
+            setAudioBooks(ab);
+        })
+    }, [])
     const onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         setStateSelect({ selectedRowKeys });
@@ -130,7 +137,7 @@ export const AudioBooksTable = ({ showConfirm }) => {
             <Table
                 rowSelection={rowSelection}
                 columns={columns}
-                dataSource={data}
+                dataSource={audioBooks}
                 expandable={{
                     expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
                     rowExpandable: record => record.name !== 'Not Expandable',
