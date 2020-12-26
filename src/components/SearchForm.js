@@ -11,7 +11,7 @@ const TypesItem = ({ item, setItem = null, }) => {
 
     const handleClick = () => {
         setItem && setItem(item);
-        container.current.style.flexBasis = type.current.clientWidth + 5 + 'px';
+        container.current.style.flexBasis = type.current.clientWidth + 6 + 'px';
         container.current.classList.remove('hideWith');
     }
     return (

@@ -1,12 +1,13 @@
 .searchform__container {
     background: $black;
     color: $white;
-    box-shadow: 0 10px 5px #000;
+    box-shadow: 0 1px 5px darken($black,5);
     box-sizing: content-box;
 }
 
 .outer-contentype {
     overflow: hidden;
+    box-sizing: border-box;
     border-bottom: 1px solid $gray;
 
 }
@@ -88,10 +89,13 @@
         background: $red;
     }
 
-    50% {
+    30% {
         background: $black;
     }
 
+    70% {
+        background: $primary;
+    }
     100% {
         background: $primary;
     }

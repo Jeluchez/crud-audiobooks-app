@@ -1,0 +1,152 @@
+.btn-edit-book,
+.btn-delete-book {
+    color: #fff;
+    font-size: rem(18);
+    margin-left: 7px;
+}
+
+.bnts-operations {
+    background: $light-black;
+    padding: 7px 10px;
+    padding-left: 2px;
+    border-radius: 20px;
+
+    .btn-edit-book {
+        border-right: 1px solid $white;
+        padding-right: 7px;
+    }
+
+    >span {
+        cursor: pointer;
+    }
+}
+
+.box-btn-add {
+    cursor: pointer;
+    position: absolute;
+    bottom: rem(40);
+    right: rem(25);
+    background: $primary;
+    border-radius: 100%;
+    width: rem(50);
+    height: rem(50);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        animation: 2s forwards push
+    }
+
+    .btn-add-book {
+        font-size: rem(25);
+        color: #fff;
+    }
+
+}
+
+.box-btn-add {
+    padding: .75rem 1.25rem;
+    border-radius: 10rem;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: .15rem;
+    transition: all .3s;
+    overflow: hidden;
+    z-index: 1;
+
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $primary;
+        border-radius: 10rem;
+        z-index: -2;
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background-color: darken($primary, 15%);
+        transition: all .3s;
+        border-radius: 10rem;
+        z-index: -1;
+    }
+
+    &:hover {
+        color: #fff;
+
+        &:before {
+            width: 100%;
+        }
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   Modals                                   */
+/* -------------------------------------------------------------------------- */
+.ant-modal-confirm-body>.anticon+.ant-modal-confirm-title+.ant-modal-confirm-content,
+.ant-modal-confirm-body .ant-modal-confirm-title {
+    color: $white;
+}
+
+.anticon-exclamation-circle svg {
+    color: #faad14 !important;
+}
+
+.ant-modal-content,
+.ant-modal-body {
+    color: $white;
+    background: $black;
+}
+
+.ant-modal-header,
+.ant-modal-footer {
+    background: $light-black;
+    border-bottom: 1px solid $gray;
+    color: #fff;
+}
+
+.ant-modal-close-x {
+    svg {
+        color: $white;
+    }
+}
+
+.ant-modal-footer {
+    border-top: 1px solid $gray;
+}
+
+.ant-modal-title {
+    color: #fff;
+}
+
+.ant-modal-body {
+    form {
+        input {
+            background: $light-black;
+            border: 1px solid $gray;
+        }
+    }
+}
+
+.ant-modal-footer button:not(.ant-btn-primary) {
+    background-color: $black;
+    color: #fff;
+    border: 1px solid $gray;
+}
+
+.ant-modal-confirm-btns button:not(.ant-btn-primary) {
+    background-color: $black;
+    color: #fff;
+    border: 1px solid $gray;
+}

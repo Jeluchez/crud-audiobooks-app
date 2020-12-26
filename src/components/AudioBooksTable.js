@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Table } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { FormContext } from '../contex/FormContext';
 
 const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name'  },
-    { title: 'Age', dataIndex: 'age', key: 'age', responsive: ['md'], },
-    { title: 'Address', dataIndex: 'address', key: 'address', responsive: ['md'], },
-    {
-        title: 'Action',
-        dataIndex: '',
-        key: 'x',
-        render: () => <a href="/#">Delete</a>,
-    },
+    { title: 'Name', dataIndex: 'name', key: 'name', sorter: (a, b) => a.age - b.age, },
+    { title: 'Age', dataIndex: 'age', key: 'age' },
+    { title: 'Address', dataIndex: 'address', key: 'address', responsive: ['sm'], },
+    // {
+    //     title: 'Action',
+    //     dataIndex: '',
+    //     key: 'x',
+    //     render: () => <a href="/#">Delete</a>,
+    // },
 ];
 
 const data = [
@@ -45,8 +47,11 @@ const data = [
 ];
 
 
-export const AudioBooksTable = () => {
+export const AudioBooksTable = ({ showConfirm }) => {
 
+
+    const { showModal, handleOk, handleCancel, isModalVisible, setIsModalVisible } = useContext(FormContext);
+    
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
     });
@@ -61,7 +66,7 @@ export const AudioBooksTable = () => {
 
     const getRow = (selectedRowKeys) => {
         console.log(selectedRowKeys)
-        const row =  data.find((row) => row.key === selectedRowKeys[0]);
+        const row = data.find((row) => row.key === selectedRowKeys[0]);
         console.log(row);
     }
 
@@ -101,8 +106,27 @@ export const AudioBooksTable = () => {
             },
         ],
     };
+
+    /* -------------------------------------------------------------------------- */
+    /*                                   button                                   */
+    /* -------------------------------------------------------------------------- */
+
     return (
-        <>
+        <div className="m-table-container">
+            <div className="table-info d-flex align-items-center justify-content-between">
+                <div className="bnts-operations d-flex justify-content-center align-items-center">
+                    <EditOutlined className="btn-edit-book" onClick={showModal} />
+
+                    <DeleteOutlined className="btn-delete-book" onClick={showConfirm} />
+                </div>
+
+                <span className="table-row-selected">
+                    1 row selected
+                </span>
+                <span className="table-usage-by-entry">
+                    showing 1-5 of 1000
+                </span>
+            </div>
             <Table
                 rowSelection={rowSelection}
                 columns={columns}
@@ -114,6 +138,6 @@ export const AudioBooksTable = () => {
                 rowClassName={'table__row'}
             />;
 
-        </>
+        </div>
     )
 }
