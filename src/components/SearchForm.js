@@ -31,8 +31,8 @@ export const SearchForm = () => {
     useEffect(() => {
         const contentType = document.querySelector('.searchform__contentype');
 
-        const hideContentType = ({target}) => {
-            if(!target.closest('.searchform__container')){
+        const hideContentType = ({ target }) => {
+            if (!target.closest('.searchform__container')) {
                 contentType.classList.add('moveDown');
             }
         }
@@ -61,19 +61,21 @@ export const SearchForm = () => {
     return (
         <div className="searchform__container">
             <form action="" onSubmit={handleSearch} className="searchform__form">
-                <div className="searchform__search d-flex align-items-center p-2">
-                    <div className="selected-item-container hideWith">
-                        {
-                            item && <TypesItem key={item.toString()} item={item} />
-                        }
-                    </div>
-                    <div className="input-search">
-                        <input type="text" placeholder="Search" className=" pl-1 w-100"
-                            onFocus={handleFocus}
-                        />
-                        <button className="btnclose" onClick={handleCloseSearch}>
-                            <i className="fas fa-times"></i>
-                        </button>
+                <div className="outer-search">
+                    <div className="searchform__search d-flex align-items-center p-2">
+                        <div className="selected-item-container hideWith">
+                            {
+                                item && <TypesItem key={item.toString()} item={item} />
+                            }
+                        </div>
+                        <div className="input-search">
+                            <input type="text" placeholder="Search" className=" pl-1 w-100"
+                                onFocus={handleFocus}
+                            />
+                            <button className="btnclose" onClick={handleCloseSearch}>
+                                <i className="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div className="outer-contentype">

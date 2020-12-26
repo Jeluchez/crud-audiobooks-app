@@ -11,11 +11,17 @@
         display: block;
         background: $light-black;
         border: 1px solid $light-gray;
-        ;
+        margin-left: 5px;
         padding: 3px 8px;
         color: #fff;
         border-radius: 20px;
 
+    }
+    .table-usage-by-entry{
+        margin-left: auto;
+        span{
+            display: none;
+        }
     }
 }
 
@@ -78,15 +84,7 @@ a:not([href]):not([class]) {
     background: none;
 }
 
-// checkbox
-.ant-checkbox-inner,
-.ant-checkbox-indeterminate .ant-checkbox-inner {
-    background: $black;
-    border: 2px solid $white;
-    width: rem(18);
-    height: rem(18);
-    border-radius: 5px;
-}
+
 
 // .ant-checkbox-indeterminate {}
 // selected table
@@ -94,9 +92,12 @@ a:not([href]):not([class]) {
     background-color: $hover-black !important;
     color: #fff;
 }
+
 // checkbox icon inner
-// .ant-table-row-expand-icon::before,
-// .ant-table-row-expand-icon::after {}
+.ant-table-row-expand-icon::before,
+.ant-table-row-expand-icon::after {
+    color: $primary
+}
 
 .ant-table {
 
@@ -107,5 +108,18 @@ a:not([href]):not([class]) {
         border: 2px solid $white;
         width: rem(18);
         height: rem(18);
+    }
+}
+
+
+@media (min-width: $smBpWidth) {
+    .m-table-container {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .table-usage-by-entry{
+        span{
+            display: inline !important;
+        }
     }
 }

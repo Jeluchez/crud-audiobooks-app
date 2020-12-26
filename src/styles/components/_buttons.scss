@@ -1,3 +1,19 @@
+.btn-primary{
+    background: $primary;
+    border-color: $primary;
+    &:hover{
+        border-color: $primary;
+        background: darken($primary, 10);
+    }
+}
+button.ant-btn-primary{
+    background: $primary !important;
+    &:hover{
+        border-color: $primary;
+        background: darken($primary, 10) !important;
+    }
+}
+
 .btn-edit-book,
 .btn-delete-book {
     color: #fff;
@@ -90,6 +106,33 @@
         }
     }
 }
+// TABLE buttons 
+.ant-checkbox-checked .ant-checkbox-inner{
+    background-color: $primary;
+    border-color: $primary;
+}
+.ant-checkbox-checked:after {
+    border: 1px solid $primary;
+  
+}
+// checkbox
+.ant-checkbox-inner,
+.ant-checkbox-indeterminate .ant-checkbox-inner {
+    background: $black;
+    border: 2px solid $white;
+    width: rem(18);
+    height: rem(18);
+    border-radius: 5px;
+}
+.ant-checkbox-input:focus+.ant-checkbox-inner, .ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner {
+    border: 2px solid $primary;
+}
+.ant-checkbox-input:focus+.ant-checkbox-inner, .ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner {
+    border: 2px solid $primary;
+}
+.ant-checkbox-indeterminate .ant-checkbox-inner::after{
+    background-color: $primary;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                   Modals                                   */
@@ -135,6 +178,10 @@
         input {
             background: $light-black;
             border: 1px solid $gray;
+            &:focus{
+                outline-color: $primary;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px $primary;
+            }
         }
     }
 }
@@ -149,4 +196,23 @@
     background-color: $black;
     color: #fff;
     border: 1px solid $gray;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    FORMS                                   */
+/* -------------------------------------------------------------------------- */
+.form-audiobooks{
+    input:focus{
+        background: $light-black;
+    }
+}
+@media (min-width: $smBpWidth) {
+    .box-btn-add  {
+       right: 30px;
+    }
+}
+@media (min-width: $mdBpWidth) {
+    .box-btn-add  {
+       right: 50px;
+    }
 }

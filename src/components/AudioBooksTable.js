@@ -113,7 +113,7 @@ export const AudioBooksTable = ({ showConfirm }) => {
 
     return (
         <div className="m-table-container">
-            <div className="table-info d-flex align-items-center justify-content-between">
+            <div className="table-info d-flex align-items-center">
                 <div className="bnts-operations d-flex justify-content-center align-items-center">
                     <EditOutlined className="btn-edit-book" onClick={showModal} />
 
@@ -123,9 +123,9 @@ export const AudioBooksTable = ({ showConfirm }) => {
                 <span className="table-row-selected">
                     1 row selected
                 </span>
-                <span className="table-usage-by-entry">
-                    showing 1-5 of 1000
-                </span>
+                <div className="table-usage-by-entry">
+                    <span>showing</span> 1-5 of 1000
+                </div>
             </div>
             <Table
                 rowSelection={rowSelection}

@@ -1,7 +1,7 @@
 .searchform__container {
     background: $black;
     color: $white;
-    box-shadow: 0 1px 5px darken($black,5);
+    box-shadow: 0 1px 5px darken($black, 5);
     box-sizing: content-box;
 }
 
@@ -22,8 +22,12 @@
     transition: 0.3s all ease-in-out;
 }
 
+.outer-search {
+    background: $light-black;
+    border: 1px solid $gray;
+}
+
 .searchform__search {
-    border-bottom: 1px solid $gray;
     background: $light-black;
     height: 50px;
 
@@ -84,6 +88,16 @@
     margin-top: -70px;
 }
 
+@media (min-width: $smBpWidth) {
+    .outer-contentype, .outer-search{
+        display: flex;
+        justify-content: center;
+    }
+    .searchform__search, .searchform__contentype{
+        width: 90%;
+    }
+}
+
 @keyframes addType {
     0% {
         background: $red;
@@ -96,6 +110,7 @@
     70% {
         background: $primary;
     }
+
     100% {
         background: $primary;
     }
