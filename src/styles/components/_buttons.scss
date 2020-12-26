@@ -39,40 +39,32 @@ button.ant-btn-primary{
 
 .box-btn-add {
     cursor: pointer;
-    position: absolute;
-    bottom: rem(40);
-    right: rem(25);
+    margin-left: auto;
     background: $primary;
     border-radius: 100%;
     width: rem(50);
-    height: rem(50);
-    text-align: center;
+    height: rem(30);
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 
     &:hover {
         animation: 2s forwards push
     }
 
     .btn-add-book {
-        font-size: rem(25);
+        font-size: rem(20);
         color: #fff;
     }
 
 }
 
 .box-btn-add {
-    padding: .75rem 1.25rem;
     border-radius: 10rem;
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 1rem;
-    letter-spacing: .15rem;
     transition: all .3s;
     overflow: hidden;
     z-index: 1;
-
     &:after {
         content: '';
         position: absolute;
@@ -204,15 +196,5 @@ button.ant-btn-primary{
 .form-audiobooks{
     input:focus{
         background: $light-black;
-    }
-}
-@media (min-width: $smBpWidth) {
-    .box-btn-add  {
-       right: 30px;
-    }
-}
-@media (min-width: $mdBpWidth) {
-    .box-btn-add  {
-       right: 50px;
     }
 }

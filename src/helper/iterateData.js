@@ -1,11 +1,8 @@
-
+import moment from 'moment';
 // return all audio books with prefixed in all filde "es-Mx"
 
 export const mapData = items => items.map((item) =>{
-
-    // rename data
     const fields = renameData(item.fields);
-    
     return {
         ...fields,
         key : item.sys.id
@@ -14,14 +11,28 @@ export const mapData = items => items.map((item) =>{
 
 function renameData(field){
 
-    const newField= null;
+    let  newField= null;
 
     for (const prop in field) {
+       
+        if (prop === 'duration') {
+            const duration =  moment(Object.values(field[prop])[0]).format('HH:mm');
+            newField={
+                ...newField,
+                [prop] : duration,
+            }
+            continue;
+        }
+        // if(prop === 'street_date'){
+
+        // }
+
         newField={
-            
+            ...newField,
+            [prop] : Object.values(field[prop]),
         }
 
     }
-    return field.map( fieldAttr => Object.keys(fieldAttr));
+    return newField;
 }
 

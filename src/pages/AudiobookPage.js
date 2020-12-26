@@ -1,4 +1,4 @@
-import { ExclamationCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { ExclamationCircleOutlined} from '@ant-design/icons'
 import { Modal } from 'antd';
 import React, { useContext, useState } from 'react'
 import { AudioBooksTable } from '../components/AudioBooksTable'
@@ -38,7 +38,6 @@ export const AudiobookPage = () => {
                 <FormAdd />
             </Modal>
 
-            <div className="box-btn-add" onClick={showModal}><PlusCircleOutlined className="btn-add-book" /></div>
         </div>
     )
 }
