@@ -23,10 +23,6 @@ function renameData(field){
             }
             continue;
         }
-        // if(prop === 'street_date'){
-
-        // }
-
         newField={
             ...newField,
             [prop] : Object.values(field[prop]),

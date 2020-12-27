@@ -40,22 +40,22 @@ button.ant-btn-primary{
 .box-btn-add {
     cursor: pointer;
     margin-left: auto;
-    background: $primary;
-    border-radius: 100%;
-    width: rem(50);
-    height: rem(30);
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    border: 2px solid $gray;
 
     &:hover {
         animation: 2s forwards push
     }
 
     .btn-add-book {
+        position: relative;
         font-size: rem(20);
-        color: #fff;
+        color: $primary;
+        background-color: $light-black;
+        padding: 3px 15px;
     }
 
 }
@@ -106,6 +106,10 @@ button.ant-btn-primary{
 .ant-checkbox-checked:after {
     border: 1px solid $primary;
   
+}
+// arrow
+.ant-table-column-sorter-up.active, .ant-table-column-sorter-down.active{
+    color: $primary;
 }
 // checkbox
 .ant-checkbox-inner,

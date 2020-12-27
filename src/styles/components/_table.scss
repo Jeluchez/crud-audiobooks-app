@@ -1,5 +1,5 @@
 .m-table-container {
-    padding-top: rem(20);
+    padding-top: rem(10);
 }
 
 .table-info {
@@ -12,7 +12,7 @@
         background: $light-black;
         border: 1px solid $light-gray;
         margin-left: 5px;
-        padding: 3px 8px;
+        padding: 3px 10px;
         color: #fff;
         border-radius: 20px;
 
@@ -20,6 +20,7 @@
 
     .table-usage-by-entry {
         margin-left: 10px;
+
         span {
             display: none;
         }
@@ -62,17 +63,22 @@ td.ant-table-column-sort {
     background-color: $light-black;
 }
 
+// deletes last th
+.ant-table-container table > thead > tr:first-child th:last-child{
+    display: none;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                              buttons and links                             */
 /* -------------------------------------------------------------------------- */
 
-.ant-pagination-disabled .ant-pagination-item-link,
-.ant-pagination-disabled:hover .ant-pagination-item-link,
-.ant-pagination-disabled:focus .ant-pagination-item-link {
-    // background-color: $light-black;
-    // color: $white;
-    // border: none;
-}
+// .ant-pagination-disabled .ant-pagination-item-link,
+// .ant-pagination-disabled:hover .ant-pagination-item-link,
+// .ant-pagination-disabled:focus .ant-pagination-item-link {
+//     // background-color: $light-black;
+//     // color: $white;
+//     // border: none;
+// }
 
 .ant-pagination-prev .ant-pagination-item-link,
 .ant-pagination-next .ant-pagination-item-link {
@@ -88,13 +94,27 @@ a:not([href]):not([class]) {
 }
 
 .ant-pagination-item-active {
-    border: none;
-    background: none;
+    border: 1px solid $gray;
+    outline-color: $primary;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px $primary;
+}
+.ant-pagination-item{
+    background: transparent;
 }
 
 
 
-// .ant-checkbox-indeterminate {}
+/* -------------------------------------------------------------------------- */
+/*                                  ant table                                 */
+/* -------------------------------------------------------------------------- */
+.ant-spin-container{
+    display: flex;
+    flex-direction: column;
+}
+.ant-table{
+    flex-grow: 1;
+    overflow-y: auto;
+}
 // selected table
 .ant-table-tbody>tr.ant-table-row-selected>td {
     background-color: $hover-black !important;
@@ -121,16 +141,18 @@ a:not([href]):not([class]) {
 }
 
 // start table image
-.outer-image{
+.outer-image {
     overflow: hidden;
-    width: min(rem(80), rem(150), rem(200) );
-    height: min(rem(80), rem(150), rem(200) );
+    width: min(rem(60), rem(150), rem(200));
+    height: min(rem(60), rem(150), rem(200));
     border-radius: 100%;
     margin: 0;
 }
-.imageTable{
+
+.imageTable {
     max-width: 100%;
 }
+
 // end table image
 
 
@@ -138,6 +160,9 @@ a:not([href]):not([class]) {
     .m-table-container {
         width: 90%;
         margin: 0 auto;
+    }
+    .table-info{
+        padding-right: 0;
     }
 
     .table-usage-by-entry {

@@ -1,17 +1,16 @@
-.msgs__picture {
+.ant-table-body {
     &::-webkit-scrollbar {
         width: 7px;
-
+        
     }
-
     /* Track */
     &::-webkit-scrollbar-track {
-        background: #f1f1f1;
+        background: darken($black, 5);
     }
 
     /* Handle */
     &::-webkit-scrollbar-thumb {
-        background: lighten($gray, 20%);
+        background: $gray;
         border-radius: 3px;
     }
 

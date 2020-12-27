@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Table } from 'antd';
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { FormContext } from '../contex/FormContext';
 import { fetchData } from '../helper/fetch';
 import { mapData } from '../helper/iterateData';
@@ -8,11 +8,11 @@ import { mapData } from '../helper/iterateData';
 const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
     // { title: 'Conten Type', dataIndex: 'content-type', key: 'contentType', responsive: ['lg'] },
-    { title: 'Updated', dataIndex: 'street_date', key: 'street_date', responsive: ['md'], sorter: (a, b) => a.street_date - b.street_date },
-    { title: 'Authors', dataIndex: 'authors', key: 'authors', responsive: ['md'] },
+    { title: 'Updated', dataIndex: 'street_date', key: 'street_date', responsive: ['lg'], sorter: (a, b) => a.street_date - b.street_date },
+    { title: 'Authors', dataIndex: 'authors', key: 'authors', responsive: ['sm'] },
     { title: 'Cost per play', dataIndex: 'cost_per_play', key: 'cost_per_play', responsive: ['md'], sorter: (a, b) => a.cost_per_play - b.cost_per_play },
     { title: 'Duration', dataIndex: 'duration', key: 'duration', responsive: ['md'], sorter: (a, b) => a.duration - b.duration },
-    { title: 'Cover', dataIndex: 'cover', key: 'cover', responsive: ['md'], render: cover => <div className="outer-image"><img alt={cover} src={cover} className="imageTable" /></div>, },
+    { title: 'Cover', dataIndex: 'cover', key: 'cover', responsive: ['lg'], render: cover => <div className="outer-image"><img alt={cover} src={cover} className="imageTable" /></div>, },
 ];
 export const AudioBooksTable = ({ showConfirm }) => {
 
@@ -103,7 +103,7 @@ export const AudioBooksTable = ({ showConfirm }) => {
                 </div>
 
                 <div className="box-btn-add" onClick={showModal}>
-                    <PlusCircleOutlined className="btn-add-book" />
+                    <PlusOutlined className="btn-add-book" />
                 </div>
 
             </div>
@@ -112,10 +112,10 @@ export const AudioBooksTable = ({ showConfirm }) => {
                 columns={columns}
                 dataSource={audioBooks}
                 expandable={{
-                    expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
+                    expandedRowRender: record => <p style={{ margin: 0 }}>Hello</p>,
                     rowExpandable: record => record.name !== 'Not Expandable',
                 }}
-                // scroll={{ y: 600 }}
+                scroll={{ y: 390 }}
                 rowClassName={'table__row'}
             />;
 
