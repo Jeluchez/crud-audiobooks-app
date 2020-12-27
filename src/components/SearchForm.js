@@ -25,7 +25,7 @@ const TypesItem = ({ item, setItem = null, }) => {
 //searchform
 export const SearchForm = () => {
 
-    const [items, setItems] = useState(["hello", "bye", "good", "well", "see"]);
+    const [items, setItems] = useState(["title", "authors", "cost", "duration", "updated"]);
     const [item, setitem] = useState(null)
 
     useEffect(() => {
