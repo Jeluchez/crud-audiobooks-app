@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Table } from 'antd';
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import moment from 'moment';
+
 import { FormContext } from '../contex/FormContext';
 import { fetchData } from '../helper/fetch';
 import { mapData } from '../helper/iterateData';
@@ -8,10 +10,10 @@ import { mapData } from '../helper/iterateData';
 const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
     // { title: 'Conten Type', dataIndex: 'content-type', key: 'contentType', responsive: ['lg'] },
-    { title: 'Updated', dataIndex: 'street_date', key: 'street_date', responsive: ['lg'], sorter: (a, b) => a.street_date - b.street_date },
+    { title: 'Updated', dataIndex: 'street_date', key: 'street_date', responsive: ['lg'], sorter: (a, b) => moment(a.dateToSort,'DD-MM-YYYY, h:mm:ss') - moment(b.dateToSort,'DD-MM-YYYY') },
     { title: 'Authors', dataIndex: 'authors', key: 'authors', responsive: ['sm'] },
     { title: 'Cost per play', dataIndex: 'cost_per_play', key: 'cost_per_play', responsive: ['md'], sorter: (a, b) => a.cost_per_play - b.cost_per_play },
-    { title: 'Duration', dataIndex: 'duration', key: 'duration', responsive: ['md'], sorter: (a, b) => a.duration - b.duration },
+    { title: 'Duration (h:m)', dataIndex: 'duration', key: 'duration', responsive: ['md'], sorter: (a, b) => moment(a.duration,'HH:mm:ss') - moment(b.duration,'HH:mm:ss') },
     { title: 'Cover', dataIndex: 'cover', key: 'cover', responsive: ['lg'], render: cover => <div className="outer-image"><img alt={cover} src={cover} className="imageTable" /></div>, },
 ];
 export const AudioBooksTable = ({ showConfirm }) => {
@@ -115,7 +117,7 @@ export const AudioBooksTable = ({ showConfirm }) => {
                     expandedRowRender: record => <p style={{ margin: 0 }}>Hello</p>,
                     rowExpandable: record => record.name !== 'Not Expandable',
                 }}
-                scroll={{ y: 390 }}
+                scroll={{ y:400 }}
                 rowClassName={'table__row'}
             />;
 

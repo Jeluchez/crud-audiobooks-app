@@ -14,7 +14,7 @@ function renameData(field){
     let  newField= null;
 
     for (const prop in field) {
-       
+    
         if (prop === 'duration') {
             const duration =  moment(Object.values(field[prop])[0]).format('HH:mm');
             newField={
@@ -23,9 +23,18 @@ function renameData(field){
             }
             continue;
         }
+        if (prop === 'street_date') {
+            const streetDate =  moment(Object.values(field[prop])[0],"YYYYMMDD").fromNow();
+            newField={
+                ...newField,
+                [prop] : streetDate,
+                dateToSort: moment(Object.values(field[prop])[0]).format('DD-MM-YYYY')
+            }
+            continue;
+        }
         newField={
             ...newField,
-            [prop] : Object.values(field[prop]),
+            [prop] : Object.values(field[prop])[0],
         }
 
     }
