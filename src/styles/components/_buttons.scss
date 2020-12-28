@@ -1,14 +1,17 @@
-.btn-primary{
+.btn-primary {
     background: $primary;
     border-color: $primary;
-    &:hover{
+
+    &:hover {
         border-color: $primary;
         background: darken($primary, 10);
     }
 }
-button.ant-btn-primary{
+
+button.ant-btn-primary {
     background: $primary !important;
-    &:hover{
+
+    &:hover {
         border-color: $primary;
         background: darken($primary, 10) !important;
     }
@@ -26,6 +29,7 @@ button.ant-btn-primary{
     padding: 7px 10px;
     padding-left: 2px;
     border-radius: 20px;
+    overflow: hidden;
 
     .btn-edit-book {
         border-right: 1px solid $white;
@@ -65,6 +69,7 @@ button.ant-btn-primary{
     transition: all .3s;
     overflow: hidden;
     z-index: 1;
+
     &:after {
         content: '';
         position: absolute;
@@ -98,19 +103,32 @@ button.ant-btn-primary{
         }
     }
 }
+
+/* -------------------------------------------------------------------------- */
+/*                               // MODAL BUTTON                              */
+/* -------------------------------------------------------------------------- */
+.outer-btn-add-author .ant-form-item-control-input-content [type=button]:not(:disabled) {
+    background: $light-black !important;
+    color: $white;
+}
+
 // TABLE buttons 
-.ant-checkbox-checked .ant-checkbox-inner{
+.ant-checkbox-checked .ant-checkbox-inner {
     background-color: $primary;
     border-color: $primary;
 }
+
 .ant-checkbox-checked:after {
     border: 1px solid $primary;
-  
+
 }
+
 // arrow
-.ant-table-column-sorter-up.active, .ant-table-column-sorter-down.active{
+.ant-table-column-sorter-up.active,
+.ant-table-column-sorter-down.active {
     color: $primary;
 }
+
 // checkbox
 .ant-checkbox-inner,
 .ant-checkbox-indeterminate .ant-checkbox-inner {
@@ -120,13 +138,20 @@ button.ant-btn-primary{
     height: rem(18);
     border-radius: 5px;
 }
-.ant-checkbox-input:focus+.ant-checkbox-inner, .ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner {
+
+.ant-checkbox-input:focus+.ant-checkbox-inner,
+.ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox:hover .ant-checkbox-inner {
     border: 2px solid $primary;
 }
-.ant-checkbox-input:focus+.ant-checkbox-inner, .ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner {
+
+.ant-checkbox-input:focus+.ant-checkbox-inner,
+.ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox:hover .ant-checkbox-inner {
     border: 2px solid $primary;
 }
-.ant-checkbox-indeterminate .ant-checkbox-inner::after{
+
+.ant-checkbox-indeterminate .ant-checkbox-inner::after {
     background-color: $primary;
 }
 
@@ -138,6 +163,15 @@ button.ant-btn-primary{
     color: $white;
 }
 
+.ant-modal-mask {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+// envoltorio que oscurece la pantalla cuando sale el modal
+.ant-modal-wrap {
+    overflow-x: hidden;
+}
+
 .anticon-exclamation-circle svg {
     color: #faad14 !important;
 }
@@ -146,6 +180,20 @@ button.ant-btn-primary{
 .ant-modal-body {
     color: $white;
     background: $black;
+
+}
+
+.ant-modal-content .ant-modal-body {
+    padding: rem(10);
+}
+
+.ant-modal-body form input {
+    color: $white;
+}
+
+// cost integer input
+.ant-input-number {
+    border: none;
 }
 
 .ant-modal-header,
@@ -174,7 +222,8 @@ button.ant-btn-primary{
         input {
             background: $light-black;
             border: 1px solid $gray;
-            &:focus{
+
+            &:focus {
                 outline-color: $primary;
                 box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px $primary;
             }
@@ -197,8 +246,59 @@ button.ant-btn-primary{
 /* -------------------------------------------------------------------------- */
 /*                                    FORMS                                   */
 /* -------------------------------------------------------------------------- */
-.form-audiobooks{
-    input:focus{
+.form-audiobooks {
+    input:focus {
         background: $light-black;
     }
+}
+
+.ant-picker,
+.ant-picker:hover,
+.ant-picker-focused {
+    background: $light-black;
+}
+
+.ant-picker-input>input:placeholder-shown {
+    border: none;
+    outline: none;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0) inset, 0 0 8px rgba(0, 0, 0, 0) !important;
+
+    &:focus {
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0) inset, 0 0 8px rgba(0, 0, 0, 0) !important;
+    }
+}
+
+
+.ant-picker-input>input {
+    border: 1px !important;
+
+    &:focus {
+        border: none;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0) inset, 0 0 8px rgba(0, 0, 0, 0) !important;
+    }
+}
+
+.ant-picker,
+.ant-picker:hover,
+.ant-picker-focused {
+    border: 1px solid $gray;
+}
+
+.ant-form-item-has-error .ant-input-number-focused,
+.ant-form-item-has-error .ant-picker-focused,
+.ant-form-item-has-error .ant-input-number:focus,
+.ant-form-item-has-error .ant-picker:focus {
+    background: $light-black !important;
+}
+
+.ant-form-item-has-error .ant-input-number,
+.ant-form-item-has-error .ant-picker {
+    background: $light-black !important;
+}
+
+.ant-form-item-has-error .ant-input,
+.ant-form-item-has-error .ant-input-affix-wrapper,
+.ant-form-item-has-error .ant-input:hover,
+.ant-form-item-has-error .ant-input-affix-wrapper:hover {
+    background: $light-black;
 }

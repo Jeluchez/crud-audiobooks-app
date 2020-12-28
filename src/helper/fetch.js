@@ -17,16 +17,22 @@ export const fetchData = async (method = 'GET', data) => {
         });
         return await resp.json();
     } else {
-        const resp = await fetch(url, {
-            method,
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': token
-            },
-            body: JSON.stringify(data)
-        })
-
-        return await resp;
+        try {
+            const resp = await fetch(url, {
+                method,
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': token
+                },
+                body: JSON.stringify(data)
+            })
+    
+            return resp;
+            
+        } catch (error) {
+            console.log(error);
+        }
+       
     }
 
 }

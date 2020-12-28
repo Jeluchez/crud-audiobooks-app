@@ -7,6 +7,7 @@ import confirm from 'antd/lib/modal/confirm';
 import { FormContext } from '../contex/FormContext';
 import { fetchData } from '../helper/fetch';
 import { mapData } from '../helper/iterateData';
+import Modal from 'antd/lib/modal/Modal';
 
 const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
@@ -17,7 +18,7 @@ const columns = [
     { title: 'Duration (h:m)', dataIndex: 'duration', key: 'duration', responsive: ['md'], sorter: (a, b) => moment(a.duration, 'HH:mm:ss') - moment(b.duration, 'HH:mm:ss') },
     { title: 'Cover', dataIndex: 'cover', key: 'cover', responsive: ['lg'], render: cover => <div className="outer-image"><img alt={cover} src={cover} className="imageTable" /></div>, },
 ];
-export const AudioBooksTable = ({ showConfirm }) => {
+export const AudioBooksTable = () => {
 
 
     const { showModal, handleOk, handleCancel, isModalVisible, setIsModalVisible } = useContext(FormContext);
@@ -101,13 +102,19 @@ export const AudioBooksTable = ({ showConfirm }) => {
             onOk() {
                 const id = selectedRowKeys[0];
                 console.log(id);
-                fetchData('DELETE',{id}).then((res) => {
-                    console.log(res);
+                fetchData('DELETE', { id }).then((res) => {
+                    !res?.ok && error();
                 });
             },
             onCancel() {
                 console.log('Cancel');
             },
+        });
+    }
+    function error() {
+        Modal.error({
+            title: 'This is an error message',
+            content: 'could not be deleted, check with the administrator',
         });
     }
 
@@ -118,7 +125,7 @@ export const AudioBooksTable = ({ showConfirm }) => {
             <div className="table-info d-flex align-items-center">
                 <div className="bnts-operations d-flex justify-content-center align-items-center">
                     {
-                        (selectedRowKeys.length === 1 )
+                        (selectedRowKeys.length === 1)
                         && <EditOutlined className="btn-edit-book" onClick={showModal} />
                     }
                     {
