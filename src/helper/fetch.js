@@ -6,7 +6,8 @@ export const fetchData = async (method = 'GET', data) => {
     const contentType = "content_type=audiocontent-v7";
 
     let url = data ? `${baseUrl}${data}&${contentType}` : `${baseUrl}&${contentType}` ;
-    url = method === 'DELETE' ?  `${urlEntries}/${data.id}` : url;
+    if(method === 'DELETE') url = `${urlEntries}/${data.id}`
+    if(method === 'POST') url = `${urlEntries}`
 
     
     if (method === 'GET') {
@@ -22,7 +23,8 @@ export const fetchData = async (method = 'GET', data) => {
                 method,
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': token
+                    'Authorization': token,
+                    'X-Contentful-Content-Type': 'audiocontent-v7'
                 },
                 body: JSON.stringify(data)
             })

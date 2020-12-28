@@ -1,6 +1,6 @@
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Input, InputNumber, Form, Select, Space, Row, Col, TimePicker } from 'antd';
-import React from 'react';
+import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Input, InputNumber, Form, message, Row, Col, TimePicker, Upload } from 'antd';
+import React, { useState } from 'react';
 
 const formItemLayout = {
     labelCol: {
@@ -33,32 +33,45 @@ const formItemLayouDurationCost = {
     },
 };
 
-const validateMessages = {
-    required: '${label} is required!',
-    types: {
-        email: '${label} is not a valid email!',
-        number: '${label} is not a valid number!',
-    },
-    number: {
-        range: '${label} must be between ${min} and ${max}',
-    },
+const normFile = e => {
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+        return e;
+    }
+    return e && e.fileList;
 };
 
-
+// upload file
 
 
 
 export const FormAdd = () => {
-    const [form] = Form.useForm();
 
+    const [form] = Form.useForm();
+    const [fileList, updateFileList] = useState([]);
     const onFinish = values => {
         console.log('Received values of form:', values);
     };
 
+    const props = {
+        fileList,
+        beforeUpload: file => {
+            if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+                message.error(`Must upload jpg or png images`);
+                return Promise.reject("error");
+            }
+            return (file.type === 'image/png' || file.type === 'image/jpeg');
+        },
+        onChange: info => {
+            console.log(info.fileList);
+            // file.status is empty when beforeUpload return false
+            updateFileList(info.fileList.filter(file => !!file.status));
+        },
+    };
     return (
 
 
-        <Form {...formItemLayout} name="form-add-update" onFinish={onFinish} validateMessages={validateMessages}
+        <Form {...formItemLayout} name="form-add-update" onFinish={onFinish}
             className="form-add"
 
         >
@@ -126,25 +139,38 @@ export const FormAdd = () => {
                 )}
             </Form.List>
             {/* end authors */}
-            <Row gutter={{ xs: 8, sm: 16}}>
+            <Row gutter={{ xs: 16 }}>
                 <Col span={12} style={{ textAlign: 'right' }}>
                     <Form.Item name={['audiobook', 'duration']} label="duration" {...formItemLayouDurationCost}
                         labelAlign="right"
-                        rules={[{type: 'object', required: true, message: "Please input audiobook duration" }]}>
-                         <TimePicker style={{width: '100%'}} />
+                        rules={[{ type: 'object', required: true, message: "Please input audiobook duration" }]}>
+                        <TimePicker style={{ width: '100%' }} />
                     </Form.Item>
                 </Col>
                 <Col span={12}>
                     <Form.Item name={['audiobook', 'cost_per_play']} label="Cost per play" labelAlign="left"
-                    labelCol={{xs:{span:12}}} wrapperCol={{span:24}}
+                        labelCol={{ xs: { span: 12 } }} wrapperCol={{ span: 24 }}
                         rules={[{ type: 'number', min: 1, required: true, message: "Please input audiobook cost" }]}
                     >
-                        <InputNumber style={{width: '100%'}}/>
+                        <InputNumber style={{ width: '100%' }} />
                     </Form.Item>
                 </Col>
             </Row>
-            <Form.Item wrapperCol={{ ...formItemLayout.wrapperCol, offset: 8 }}>
-                <Button type="primary" htmlType="submit">
+            <Form.Item
+                name={['audiobook', 'cover']}
+                label="Cover"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+                extra="upload the audiobook cover"
+                style={{ display: 'flex', flexDirection: 'row' }}
+            >
+            {/* upload */}
+                <Upload {...props} name="logo" action="/upload.do" listType="picture">
+                    <Button icon={<UploadOutlined />}>Click to upload</Button>
+                </Upload>
+            </Form.Item>
+            <Form.Item wrapperCol={{ ...formItemLayoutWithOutLabel.wrapperCol }}>
+                <Button type="primary" htmlType="submit" style={{ width: '140px' }}>
                     Send
                 </Button>
             </Form.Item>

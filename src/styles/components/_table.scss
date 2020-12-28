@@ -63,11 +63,6 @@ td.ant-table-column-sort {
     background-color: $light-black;
 }
 
-// deletes last th
-.ant-table-container table > thead > tr:first-child th:last-child{
-    display: none;
-}
-
 /* -------------------------------------------------------------------------- */
 /*                              buttons and links                             */
 /* -------------------------------------------------------------------------- */

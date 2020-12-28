@@ -10,7 +10,7 @@
 
 button.ant-btn-primary {
     background: $primary !important;
-
+    color: $black;
     &:hover {
         border-color: $primary;
         background: darken($primary, 10) !important;
@@ -156,7 +156,7 @@ button.ant-btn-primary {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                                   Modals                                   */
+/*                                   SECTION Modals                                   */
 /* -------------------------------------------------------------------------- */
 .ant-modal-confirm-body>.anticon+.ant-modal-confirm-title+.ant-modal-confirm-content,
 .ant-modal-confirm-body .ant-modal-confirm-title {
@@ -239,12 +239,14 @@ button.ant-btn-primary {
 
 .ant-modal-confirm-btns button:not(.ant-btn-primary) {
     background-color: $black;
-    color: #fff;
+    color: $black !important;
     border: 1px solid $gray;
 }
-
+.anticon[tabindex]{
+    color: $red;
+}
 /* -------------------------------------------------------------------------- */
-/*                                    FORMS                                   */
+/*                                   SECTION FORMS                                   */
 /* -------------------------------------------------------------------------- */
 .form-audiobooks {
     input:focus {
@@ -301,4 +303,20 @@ button.ant-btn-primary {
 .ant-form-item-has-error .ant-input:hover,
 .ant-form-item-has-error .ant-input-affix-wrapper:hover {
     background: $light-black;
+}
+
+.ant-form-item-explain, .ant-form-item-extra{
+    color: $white;
+}
+.ant-upload.ant-upload-select button{
+    background: $light-black;
+    color: $white;
+    border-color: $gray;
+    &:hover{
+        color:$primary;
+        border: 1px solid $primary;
+    }
+}
+.ant-modal-footer button:last-child{
+    display: none;
 }
