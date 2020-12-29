@@ -5,7 +5,8 @@ export const fetchData = async (method = 'GET', data) => {
 
     const contentType = "content_type=audiocontent-v7";
 
-    let url = data ? `${baseUrl}${data}&${contentType}` : `${baseUrl}&${contentType}` ;
+    let url;
+    if(method === 'GET') url = `${baseUrl}&${contentType}` ;
     if(method === 'DELETE') url = `${urlEntries}/${data.id}`
     if(method === 'POST') url = `${urlEntries}`
 

@@ -1,6 +1,8 @@
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Input, InputNumber, Form, message, Row, Col, TimePicker, Upload } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { revertMapData } from '../helper/iterateData';
+import { fileUpload } from '../helper/upload';
 
 const formItemLayout = {
     labelCol: {
@@ -34,7 +36,7 @@ const formItemLayouDurationCost = {
 };
 
 const normFile = e => {
-    console.log('Upload event:', e);
+    // console.log('Upload event:', e);
     if (Array.isArray(e)) {
         return e;
     }
@@ -49,23 +51,55 @@ export const FormAdd = () => {
 
     const [form] = Form.useForm();
     const [fileList, updateFileList] = useState([]);
+
+    const signal = useRef(0);
+    const coverUrlRef = useRef('');
+    const [loadindImage, setLoadindImage] = useState(true)
+    // console.log(signal.current);
+    useEffect(() => {
+        // save the image in cloudinar
+        const cover = fileList[0]?.originFileObj;
+        if (cover) {
+            // este 3 lo coloqué porque el componente upload se renderiza 3 veces
+            if (signal.current === 3) {
+                const coverUrl = fileUpload(cover);
+                coverUrl.then((url) => {
+                    coverUrlRef.current = url;
+                    signal.current = 0;
+                    setLoadindImage(false);
+                })
+            }
+        }
+
+    }, [signal, fileList])
+
     const onFinish = values => {
         console.log('Received values of form:', values);
+        const { audiobook } = values;
+
+        // add url cover
+        audiobook.cover = coverUrlRef.current;
+       
+        const newAudiobook =  revertMapData(audiobook);
+        const fields = { "fields":{...newAudiobook}};
+        fetch('POST', fields).then((res =>{
+            console.log(res);
+        }))
     };
 
     const props = {
         fileList,
         beforeUpload: file => {
             if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
-                message.error(`Must upload jpg or png images`);
-                return Promise.reject("error");
+                return message.error(`Must upload jpg or png images`);
             }
             return (file.type === 'image/png' || file.type === 'image/jpeg');
         },
         onChange: info => {
-            console.log(info.fileList);
-            // file.status is empty when beforeUpload return false
-            updateFileList(info.fileList.filter(file => !!file.status));
+            signal.current += 1;
+            info.fileList.length > 1
+                ? updateFileList(info.fileList.splice(0, 1))
+                : updateFileList(info.fileList.filter(file => !!file.status))
         },
     };
     return (
@@ -144,7 +178,7 @@ export const FormAdd = () => {
                     <Form.Item name={['audiobook', 'duration']} label="duration" {...formItemLayouDurationCost}
                         labelAlign="right"
                         rules={[{ type: 'object', required: true, message: "Please input audiobook duration" }]}>
-                        <TimePicker style={{ width: '100%' }} />
+                        <TimePicker style={{ width: '100%' }}/>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
@@ -163,14 +197,17 @@ export const FormAdd = () => {
                 getValueFromEvent={normFile}
                 extra="upload the audiobook cover"
                 style={{ display: 'flex', flexDirection: 'row' }}
+                rules={[{ required: true, message: "Please load the audiobook cover" }]}
             >
-            {/* upload */}
-                <Upload {...props} name="logo" action="/upload.do" listType="picture">
+                {/* upload */}
+                <Upload {...props} name="logo"
+                    listType="picture"
+                >
                     <Button icon={<UploadOutlined />}>Click to upload</Button>
                 </Upload>
             </Form.Item>
             <Form.Item wrapperCol={{ ...formItemLayoutWithOutLabel.wrapperCol }}>
-                <Button type="primary" htmlType="submit" style={{ width: '140px' }}>
+                <Button type="primary" htmlType="submit" style={{ width: '140px' }} disabled={loadindImage}>
                     Send
                 </Button>
             </Form.Item>
