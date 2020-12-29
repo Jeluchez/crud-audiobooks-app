@@ -1,5 +1,5 @@
 import { Modal } from 'antd';
-import React, { useContext} from 'react'
+import React, { useContext } from 'react'
 import { AudioBooksTable } from '../components/AudioBooksTable'
 // import { OwnTable } from '../components/OwnTable'
 import { SearchForm } from '../components/SearchForm'
@@ -18,8 +18,8 @@ export const AudiobookPage = () => {
             <AudioBooksTable />
             {/* <OwnTable/> */}
 
-            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} 
-            onCancel={handleCancel}
+            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk}
+                onCancel={handleCancel}
             >
                 <FormAdd />
             </Modal>
@@ -27,3 +27,32 @@ export const AudiobookPage = () => {
         </div>
     )
 }
+
+
+// {
+//     "fields":
+//     {
+//         "title": {
+//             "es-MX": "sdsds"
+//         },
+//         "authors": {
+//             "es-MX": ["me"]
+//         }, "duration": {
+//             "es-MX": 1609153560425
+//         }, "cost_per_play": {
+//             "es-MX":
+//             56
+//         }, "cover": {
+//             "es-MX": "https://res.cloudinary.com/jeluchez-devdor/image/upload/v1609217035/micoama5q4ymf4c1sjp4.jpg"
+//         }, "street_date": {
+//             "es-MX": "2020-12-28T23:47:31-05:00"
+//         }, "is_original": {
+//             "es-MX": false
+//         },
+//         "narrators": {
+//             "es-MX": [
+//                 "Mari Carmen Obregón"
+//             ]
+//         }
+//     }
+// }

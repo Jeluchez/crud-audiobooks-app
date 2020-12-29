@@ -20,6 +20,7 @@ export const fetchData = async (method = 'GET', data) => {
         return await resp.json();
     } else {
         try {
+            console.log(JSON.parse(data));
             const resp = await fetch(url, {
                 method,
                 headers: {
@@ -27,7 +28,7 @@ export const fetchData = async (method = 'GET', data) => {
                     'Authorization': token,
                     'X-Contentful-Content-Type': 'audiocontent-v7'
                 },
-                body: JSON.stringify(data)
+                body: JSON.parse(data)
             })
     
             return resp;

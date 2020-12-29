@@ -1,6 +1,8 @@
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Input, InputNumber, Form, message, Row, Col, TimePicker, Upload } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import { FormContext } from 'antd/lib/form/context';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { AudioBookContext } from '../contex/AudiobookContext';
 import { revertMapData } from '../helper/iterateData';
 import { fileUpload } from '../helper/upload';
 
@@ -49,7 +51,9 @@ const normFile = e => {
 
 export const FormAdd = () => {
 
-    const [form] = Form.useForm();
+    const { addTable} = useContext(AudioBookContext);
+    const {handleCancel } = useContext(FormContext);
+
     const [fileList, updateFileList] = useState([]);
 
     const signal = useRef(0);
@@ -74,16 +78,18 @@ export const FormAdd = () => {
     }, [signal, fileList])
 
     const onFinish = values => {
-        console.log('Received values of form:', values);
         const { audiobook } = values;
-
         // add url cover
         audiobook.cover = coverUrlRef.current;
        
         const newAudiobook =  revertMapData(audiobook);
         const fields = { "fields":{...newAudiobook}};
         fetch('POST', fields).then((res =>{
-            console.log(res);
+            // update table;
+            if (res.ok){
+               console.log(res)
+                // handleCancel();
+            } 
         }))
     };
 

@@ -48,6 +48,8 @@ export const revertMapData = (audiobook) => {
     audiobook.duration = moment(audiobook.duration).valueOf(); 
     audiobook.street_date = moment().format();
     audiobook.is_original = false;
+    audiobook.narrators = ['Lola', 'lila'];
+    
     for (const prop in audiobook) {
         newAudioBook = {
             ...newAudioBook,

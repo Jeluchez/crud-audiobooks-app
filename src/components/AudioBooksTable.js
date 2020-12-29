@@ -8,6 +8,7 @@ import { FormContext } from '../contex/FormContext';
 import { fetchData } from '../helper/fetch';
 import { mapData } from '../helper/iterateData';
 import Modal from 'antd/lib/modal/Modal';
+import { AudioBookContext } from '../contex/AudiobookContext';
 
 const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
@@ -21,14 +22,15 @@ const columns = [
 export const AudioBooksTable = () => {
 
 
-    const { showModal, handleOk, handleCancel, isModalVisible, setIsModalVisible } = useContext(FormContext);
+    const { showModal, handleCancel} = useContext(FormContext);
+    const { addTable, audioBooks, setAudioBooks} = useContext(AudioBookContext);
 
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
     });
     const { selectedRowKeys } = stateSelect;
 
-    const [audioBooks, setAudioBooks] = useState(null);
+
 
     useEffect(() => {
         fetchData().then(({ items }) => {
@@ -36,7 +38,7 @@ export const AudioBooksTable = () => {
             // console.log(ab);
             setAudioBooks(ab);
         })
-    }, [audioBooks]);
+    }, [audioBooks,setAudioBooks]);
     const onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         setStateSelect({ selectedRowKeys });

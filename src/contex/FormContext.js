@@ -18,9 +18,9 @@ export const FormProvider = ({ children }) => {
     const handleCancel = () => {
         setIsModalVisible(false);
     };
-    
 
-    return(
+
+    return (
         <FormContext.Provider value={{
             showModal,
             handleOk,
@@ -28,8 +28,8 @@ export const FormProvider = ({ children }) => {
             isModalVisible,
             setIsModalVisible,
         }}>
-            { children }
+            { children}
         </FormContext.Provider>
     )
-    
+
 }
