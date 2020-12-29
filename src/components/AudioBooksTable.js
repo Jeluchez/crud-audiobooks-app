@@ -7,8 +7,7 @@ import confirm from 'antd/lib/modal/confirm';
 import { FormContext } from '../contex/FormContext';
 import { fetchData } from '../helper/fetch';
 import { mapData } from '../helper/iterateData';
-import Modal from 'antd/lib/modal/Modal';
-import { AudioBookContext } from '../contex/AudiobookContext';
+import { AudiobookContext} from '../contex/AudiobookContext';
 
 const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
@@ -22,23 +21,26 @@ const columns = [
 export const AudioBooksTable = () => {
 
 
-    const { showModal, handleCancel} = useContext(FormContext);
-    const { addTable, audioBooks, setAudioBooks} = useContext(AudioBookContext);
+    const { showModal} = useContext(FormContext);
+    const { audioBooks, setAudioBooks, setIsAdded, isAdded} = useContext(AudiobookContext);
 
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
     });
     const { selectedRowKeys } = stateSelect;
 
+    console.log(isAdded);
 
 
     useEffect(() => {
         fetchData().then(({ items }) => {
             const ab = mapData(items);
-            // console.log(ab);
             setAudioBooks(ab);
+            setIsAdded(false);
         })
-    }, [audioBooks,setAudioBooks]);
+    }, [setAudioBooks,isAdded,setIsAdded]);
+
+
     const onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         setStateSelect({ selectedRowKeys });
@@ -103,9 +105,8 @@ export const AudioBooksTable = () => {
             content: 'Some descriptions',
             onOk() {
                 const id = selectedRowKeys[0];
-                console.log(id);
                 fetchData('DELETE', { id }).then((res) => {
-                    !res?.ok && error();
+                    res.ok && setIsAdded(true);
                 });
             },
             onCancel() {
@@ -113,12 +114,12 @@ export const AudioBooksTable = () => {
             },
         });
     }
-    function error() {
-        Modal.error({
-            title: 'This is an error message',
-            content: 'could not be deleted, check with the administrator',
-        });
-    }
+    // function error() {
+    //     Modal.error({
+    //         title: 'This is an error message',
+    //         content: 'could not be deleted, check with the administrator',
+    //     });
+    // }
 
     // 
 

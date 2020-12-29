@@ -10,7 +10,7 @@ import { FormContext } from '../contex/FormContext';
 
 
 export const AudiobookPage = () => {
-    const { showModal, handleOk, handleCancel, isModalVisible, setIsModalVisible } = useContext(FormContext);
+    const {handleOk, handleCancel, isModalVisible } = useContext(FormContext);
 
     return (
         <div className="audiobook__container">

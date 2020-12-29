@@ -1,8 +1,9 @@
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Input, InputNumber, Form, message, Row, Col, TimePicker, Upload } from 'antd';
-import { FormContext } from 'antd/lib/form/context';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { AudioBookContext } from '../contex/AudiobookContext';
+import { AudiobookContext} from '../contex/AudiobookContext';
+import { FormContext } from '../contex/FormContext';
+import { fetchData } from '../helper/fetch';
 import { revertMapData } from '../helper/iterateData';
 import { fileUpload } from '../helper/upload';
 
@@ -51,8 +52,8 @@ const normFile = e => {
 
 export const FormAdd = () => {
 
-    const { addTable} = useContext(AudioBookContext);
-    const {handleCancel } = useContext(FormContext);
+    const { setIsAdded, isAdded } = useContext(AudiobookContext);
+    const {handleCancel} = useContext(FormContext);
 
     const [fileList, updateFileList] = useState([]);
 
@@ -81,15 +82,17 @@ export const FormAdd = () => {
         const { audiobook } = values;
         // add url cover
         audiobook.cover = coverUrlRef.current;
-       
-        const newAudiobook =  revertMapData(audiobook);
-        const fields = { "fields":{...newAudiobook}};
-        fetch('POST', fields).then((res =>{
+
+        const newAudiobook = revertMapData(audiobook);
+        const fields = { "fields": { ...newAudiobook } };
+        fetchData('POST', fields).then((res => {
             // update table;
-            if (res.ok){
-               console.log(res)
-                // handleCancel();
-            } 
+
+            if (res) {
+                handleCancel();
+                setIsAdded(true);
+            }
+
         }))
     };
 
@@ -184,7 +187,7 @@ export const FormAdd = () => {
                     <Form.Item name={['audiobook', 'duration']} label="duration" {...formItemLayouDurationCost}
                         labelAlign="right"
                         rules={[{ type: 'object', required: true, message: "Please input audiobook duration" }]}>
-                        <TimePicker style={{ width: '100%' }}/>
+                        <TimePicker style={{ width: '100%' }} />
                     </Form.Item>
                 </Col>
                 <Col span={12}>

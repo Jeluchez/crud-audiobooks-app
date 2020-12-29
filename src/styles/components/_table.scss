@@ -110,6 +110,10 @@ a:not([href]):not([class]) {
     flex-grow: 1;
     overflow-y: auto;
 }
+// last table column, this is the collumn of the scroll
+.ant-table-cell-scrollbar{
+    display: none;
+}
 // selected table
 .ant-table-tbody>tr.ant-table-row-selected>td {
     background-color: $hover-black !important;
@@ -165,4 +169,17 @@ a:not([href]):not([class]) {
             display: inline !important;
         }
     }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              SECTION ANIMATION                             */
+/* -------------------------------------------------------------------------- */
+
+.ant-table-tbody tr:nth-child(2){
+   animation: 2s lightRow;
+}
+@keyframes lightRow {
+   from{
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px $primary;
+   }
 }
