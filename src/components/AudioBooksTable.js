@@ -7,7 +7,7 @@ import confirm from 'antd/lib/modal/confirm';
 import { FormContext } from '../contex/FormContext';
 import { fetchData } from '../helper/fetch';
 import { mapData } from '../helper/iterateData';
-import { AudiobookContext} from '../contex/AudiobookContext';
+import { AudiobookContext } from '../contex/AudiobookContext';
 
 const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
@@ -21,15 +21,15 @@ const columns = [
 export const AudioBooksTable = () => {
 
 
-    const { showModal} = useContext(FormContext);
-    const { audioBooks, setAudioBooks, setIsAdded, isAdded} = useContext(AudiobookContext);
+    const { showModal } = useContext(FormContext);
+    const { audioBooks, setAudioBooks, setIsAdded, isAdded } = useContext(AudiobookContext);
 
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
     });
     const { selectedRowKeys } = stateSelect;
 
-    console.log(isAdded);
+    // console.log(isAdded);
 
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export const AudioBooksTable = () => {
             setAudioBooks(ab);
             setIsAdded(false);
         })
-    }, [setAudioBooks,isAdded,setIsAdded]);
+    }, [setAudioBooks, isAdded, setIsAdded]);
 
 
     const onSelectChange = selectedRowKeys => {
@@ -48,7 +48,7 @@ export const AudioBooksTable = () => {
     }
 
     const getRow = (selectedRowKeys) => {
-        console.log(selectedRowKeys)
+        // console.log(selectedRowKeys)
         return audioBooks.find((row) => row.key === selectedRowKeys[0]);
     }
 
@@ -106,7 +106,12 @@ export const AudioBooksTable = () => {
             onOk() {
                 const id = selectedRowKeys[0];
                 fetchData('DELETE', { id }).then((res) => {
-                    res.ok && setIsAdded(true);
+                    if (res.ok) {
+                        setStateSelect({
+                            selectedRowKeys: []
+                        })
+                        setIsAdded(true);
+                    }
                 });
             },
             onCancel() {

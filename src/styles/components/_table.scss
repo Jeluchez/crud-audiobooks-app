@@ -93,7 +93,8 @@ a:not([href]):not([class]) {
     outline-color: $primary;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px $primary;
 }
-.ant-pagination-item{
+
+.ant-pagination-item {
     background: transparent;
 }
 
@@ -102,18 +103,21 @@ a:not([href]):not([class]) {
 /* -------------------------------------------------------------------------- */
 /*                                  ant table                                 */
 /* -------------------------------------------------------------------------- */
-.ant-spin-container{
+.ant-spin-container {
     display: flex;
     flex-direction: column;
 }
-.ant-table{
+
+.ant-table {
     flex-grow: 1;
     overflow-y: auto;
 }
+
 // last table column, this is the collumn of the scroll
-.ant-table-cell-scrollbar{
+.ant-table-cell-scrollbar {
     display: none;
 }
+
 // selected table
 .ant-table-tbody>tr.ant-table-row-selected>td {
     background-color: $hover-black !important;
@@ -160,7 +164,8 @@ a:not([href]):not([class]) {
         width: 90%;
         margin: 0 auto;
     }
-    .table-info{
+
+    .table-info {
         padding-right: 0;
     }
 
@@ -175,11 +180,16 @@ a:not([href]):not([class]) {
 /*                              SECTION ANIMATION                             */
 /* -------------------------------------------------------------------------- */
 
-.ant-table-tbody tr:nth-child(2){
-   animation: 2s lightRow;
+// .ant-table-tbody tr:nth-child(2) {
+//     // background: red;
+    
+// }
+.lightRow{
+    animation: 7s lightRowAni;
 }
-@keyframes lightRow {
-   from{
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px $primary;
-   }
+@keyframes lightRowAni {
+    from {
+        box-shadow: 0px 0px 10px 1px $primary inset;
+        border: 2px solid $primary !important;
+    }
 }

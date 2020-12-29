@@ -1,11 +1,15 @@
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Input, InputNumber, Form, message, Row, Col, TimePicker, Upload } from 'antd';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { AudiobookContext} from '../contex/AudiobookContext';
+import { ToastContainer, toast } from 'react-toastify';
+import { AudiobookContext } from '../contex/AudiobookContext';
 import { FormContext } from '../contex/FormContext';
 import { fetchData } from '../helper/fetch';
 import { revertMapData } from '../helper/iterateData';
 import { fileUpload } from '../helper/upload';
+
+
+toast.configure();
 
 const formItemLayout = {
     labelCol: {
@@ -52,19 +56,22 @@ const normFile = e => {
 
 export const FormAdd = () => {
 
+    const [form] = Form.useForm();
     const { setIsAdded, isAdded } = useContext(AudiobookContext);
-    const {handleCancel} = useContext(FormContext);
+    const { handleCancel } = useContext(FormContext);
 
     const [fileList, updateFileList] = useState([]);
 
     const signal = useRef(0);
     const coverUrlRef = useRef('');
-    const [loadindImage, setLoadindImage] = useState(true)
+    const [loadindImage, setLoadindImage] = useState(true);
+    const [loadindBtn, setLoadindBtn] = useState(false);
     // console.log(signal.current);
     useEffect(() => {
         // save the image in cloudinar
         const cover = fileList[0]?.originFileObj;
         if (cover) {
+            setLoadindBtn(true);
             // este 3 lo coloqué porque el componente upload se renderiza 3 veces
             if (signal.current === 3) {
                 const coverUrl = fileUpload(cover);
@@ -78,6 +85,10 @@ export const FormAdd = () => {
 
     }, [signal, fileList])
 
+    const signRowAdded = () => {
+        const row = document.querySelector('.ant-table-tbody tr:nth-child(2)');
+        row.classList.toggle('lightRow');
+    }
     const onFinish = values => {
         const { audiobook } = values;
         // add url cover
@@ -89,11 +100,25 @@ export const FormAdd = () => {
             // update table;
 
             if (res) {
+                toast('Audiobook Added', {
+                    autoClose: 5000,
+                });
+                // close modal form
                 handleCancel();
+                // cleant input form
+                onReset();
+                // update table
                 setIsAdded(true);
+                // iluminate firts row
+                signRowAdded();
+
             }
 
         }))
+    };
+
+    const onReset = () => {
+        form.resetFields();
     };
 
     const props = {
@@ -114,7 +139,7 @@ export const FormAdd = () => {
     return (
 
 
-        <Form {...formItemLayout} name="form-add-update" onFinish={onFinish}
+        <Form {...formItemLayout} form={form} name="form-add-update" onFinish={onFinish}
             className="form-add"
 
         >
@@ -216,7 +241,7 @@ export const FormAdd = () => {
                 </Upload>
             </Form.Item>
             <Form.Item wrapperCol={{ ...formItemLayoutWithOutLabel.wrapperCol }}>
-                <Button type="primary" htmlType="submit" style={{ width: '140px' }} disabled={loadindImage}>
+                <Button type="primary" htmlType="submit" style={{ width: '140px' }} loading={loadindImage && loadindBtn} disabled={loadindImage}>
                     Send
                 </Button>
             </Form.Item>
