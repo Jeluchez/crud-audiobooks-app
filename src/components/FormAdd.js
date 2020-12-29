@@ -1,7 +1,7 @@
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Input, InputNumber, Form, message, Row, Col, TimePicker, Upload } from 'antd';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import { AudiobookContext } from '../contex/AudiobookContext';
 import { FormContext } from '../contex/FormContext';
 import { fetchData } from '../helper/fetch';
@@ -56,9 +56,8 @@ const normFile = e => {
 
 export const FormAdd = () => {
 
-    const [form] = Form.useForm();
-    const { setIsAdded, isAdded } = useContext(AudiobookContext);
-    const { handleCancel } = useContext(FormContext);
+    const { setIsAdded, selectedAudioBook } = useContext(AudiobookContext);
+    const { handleCancel, form} = useContext(FormContext);
 
     const [fileList, updateFileList] = useState([]);
 
@@ -66,7 +65,15 @@ export const FormAdd = () => {
     const coverUrlRef = useRef('');
     const [loadindImage, setLoadindImage] = useState(true);
     const [loadindBtn, setLoadindBtn] = useState(false);
-    // console.log(signal.current);
+
+
+    useEffect(() => {
+        // there are selected audiobook then assign to form
+        console.log(selectedAudioBook);
+        // form.setFieldsValue({...selectedAudioBook});
+        // selectedAudioBook && form.setFieldsValue(selectedAudioBook);
+    }, [selectedAudioBook, form]);
+
     useEffect(() => {
         // save the image in cloudinar
         const cover = fileList[0]?.originFileObj;
@@ -83,14 +90,22 @@ export const FormAdd = () => {
             }
         }
 
-    }, [signal, fileList])
+    }, [signal, fileList]);
 
+
+
+/* -------------------------------------------------------------------------- */
+/*                            load form with datas                            */
+/* -------------------------------------------------------------------------- */
+
+   
     const signRowAdded = () => {
-        const row = document.querySelector('.ant-table-tbody tr:nth-child(2)');
+        const row = document.querySelector('.ant-table-tbody tr.ant-table-measure-row + tr');
         row.classList.toggle('lightRow');
     }
     const onFinish = values => {
-        const { audiobook } = values;
+        const audiobook  = values;
+        console.log(audiobook);
         // add url cover
         audiobook.cover = coverUrlRef.current;
 
@@ -100,6 +115,7 @@ export const FormAdd = () => {
             // update table;
 
             if (res) {
+                console.log(res);
                 toast('Audiobook Added', {
                     autoClose: 5000,
                 });
@@ -110,7 +126,10 @@ export const FormAdd = () => {
                 // update table
                 setIsAdded(true);
                 // iluminate firts row
-                signRowAdded();
+                setTimeout(() => {
+                    signRowAdded();
+                }, 700);
+
 
             }
 
@@ -127,7 +146,9 @@ export const FormAdd = () => {
             if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
                 return message.error(`Must upload jpg or png images`);
             }
+            console.log(form.getFieldsValue());
             return (file.type === 'image/png' || file.type === 'image/jpeg');
+           
         },
         onChange: info => {
             signal.current += 1;
@@ -141,16 +162,16 @@ export const FormAdd = () => {
 
         <Form {...formItemLayout} form={form} name="form-add-update" onFinish={onFinish}
             className="form-add"
-
+            initialValues={selectedAudioBook}
         >
-            <Form.Item name={['audiobook', 'title']} label="Title"
+            <Form.Item name={'title'} label="Title"
                 rules={[{ required: true, message: "Please input audiobook title" }]}
             >
                 <Input />
             </Form.Item>
             {/* Add authors */}
             <Form.List
-                name={['audiobook', 'authors']}
+                name={'authors'}
                 rules={[
                     {
                         validator: async (_, names) => {
@@ -207,16 +228,76 @@ export const FormAdd = () => {
                 )}
             </Form.List>
             {/* end authors */}
+
+            {/* start narrators */}
+            <Form.List
+                name={'narrators'}
+                rules={[
+                    {
+                        validator: async (_, names) => {
+                            if (!names || names.length < 1) {
+                                return Promise.reject(new Error('At least 1 Narrator'));
+                            }
+                        },
+                    },
+                ]}
+            >
+                {(fields, { add, remove }, { errors }) => (
+                    <>
+                        {fields.map((field, index) => (
+                            <Form.Item
+                                {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                                label={index === 0 ? 'Narrators' : ''}
+                                required={true}
+                                key={field.key}
+                            >
+                                <Form.Item
+                                    {...field}
+                                    validateTrigger={['onChange', 'onBlur']}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            whitespace: true,
+                                            message: "Please input narrator's name",
+                                        },
+                                    ]}
+                                    noStyle
+                                >
+                                    <Input placeholder="Narrator name" style={{ display: 'flex' }} />
+                                </Form.Item>
+                                {fields.length > 1 ? (
+                                    <MinusCircleOutlined
+                                        className="dynamic-delete-button"
+                                        onClick={() => remove(field.name)}
+                                    />
+                                ) : null}
+                            </Form.Item>
+                        ))}
+                        <Form.Item wrapperCol={{ xs: { span: 24 }, sm: { span: 20, offset: 4 } }} className="outer-btn-add-author">
+                            <Button
+                                type="dashed"
+                                onClick={() => add()}
+                                style={{ width: '100%' }}
+                                icon={<PlusOutlined />}
+                            >
+                                Add Narrator
+                            </Button>
+                            <Form.ErrorList errors={errors} />
+                        </Form.Item>
+                    </>
+                )}
+            </Form.List>
+            {/* end narrators */}
             <Row gutter={{ xs: 16 }}>
                 <Col span={12} style={{ textAlign: 'right' }}>
-                    <Form.Item name={['audiobook', 'duration']} label="duration" {...formItemLayouDurationCost}
+                    <Form.Item name={'duration'} label="duration" {...formItemLayouDurationCost}
                         labelAlign="right"
                         rules={[{ type: 'object', required: true, message: "Please input audiobook duration" }]}>
                         <TimePicker style={{ width: '100%' }} />
                     </Form.Item>
                 </Col>
                 <Col span={12}>
-                    <Form.Item name={['audiobook', 'cost_per_play']} label="Cost per play" labelAlign="left"
+                    <Form.Item name={'cost_per_play'} label="Cost per play" labelAlign="left"
                         labelCol={{ xs: { span: 12 } }} wrapperCol={{ span: 24 }}
                         rules={[{ type: 'number', min: 1, required: true, message: "Please input audiobook cost" }]}
                     >
@@ -225,7 +306,7 @@ export const FormAdd = () => {
                 </Col>
             </Row>
             <Form.Item
-                name={['audiobook', 'cover']}
+                name={'cover'}
                 label="Cover"
                 valuePropName="fileList"
                 getValueFromEvent={normFile}

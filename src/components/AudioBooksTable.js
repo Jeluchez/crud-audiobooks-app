@@ -21,12 +21,13 @@ const columns = [
 export const AudioBooksTable = () => {
 
 
-    const { showModal } = useContext(FormContext);
-    const { audioBooks, setAudioBooks, setIsAdded, isAdded } = useContext(AudiobookContext);
+    const { showModal, form } = useContext(FormContext);
+    const { audioBooks, setAudioBooks, setIsAdded, isAdded,setSelectedAudioBook } = useContext(AudiobookContext);
 
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
     });
+    const [loading, setLoading] = useState(true);
     const { selectedRowKeys } = stateSelect;
 
     // console.log(isAdded);
@@ -35,23 +36,27 @@ export const AudioBooksTable = () => {
     useEffect(() => {
         fetchData().then(({ items }) => {
             const ab = mapData(items);
+            setLoading(false);
             setAudioBooks(ab);
+
+            // is for indicate elementent add; when isAdded, indica that audiobook was addedd
             setIsAdded(false);
         })
-    }, [setAudioBooks, isAdded, setIsAdded]);
+    }, [setAudioBooks, isAdded, setIsAdded, form]);
 
 
     const onSelectChange = selectedRowKeys => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
+        // console.log('selectedRowKeys changed: ', selectedRowKeys);
         setStateSelect({ selectedRowKeys });
-        getRow(selectedRowKeys);
+        setSelectedAudioBook(getRow(selectedRowKeys));
     }
 
     const getRow = (selectedRowKeys) => {
         // console.log(selectedRowKeys)
-        return audioBooks.find((row) => row.key === selectedRowKeys[0]);
+        const audibookRow = audioBooks.find((row) => row.key === selectedRowKeys[0]);
+        return audibookRow;
     }
-
+   
     const rowSelection = {
         selectedRowKeys,
         onChange: onSelectChange,
@@ -164,6 +169,7 @@ export const AudioBooksTable = () => {
                 }}
                 scroll={{ y: 400 }}
                 rowClassName={'table__row'}
+                loading={loading}
             />;
 
         </div>
