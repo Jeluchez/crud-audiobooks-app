@@ -57,13 +57,13 @@ const normFile = e => {
 export const FormAdd = () => {
 
     const { setIsAdded, selectedAudioBook, setSselectedAudioBook } = useContext(AudiobookContext);
-    const { handleCancel, form, onReset } = useContext(FormContext);
+    const { handleCancel, form, onReset, showModal } = useContext(FormContext);
 
     const signal = useRef(0);
     const coverUrlRef = useRef('');
 
     const [loadindImage, setLoadindImage] = useState(false);
-    const [loadindBtn, setLoadindBtn] = useState(false);
+    const [loadindBtn, setLoadindBtn] = useState(true);
 
     const [fileList, updateFileList] = useState([]);
 
@@ -83,6 +83,7 @@ export const FormAdd = () => {
         // setDefList([]);
         // there are selected audiobook then assign to form
         if (selectedAudioBook) {
+            // console.log('is selected cl', selectedAudioBook)
             renameAudiobook.current = renameDataToForm(selectedAudioBook);
             form.setFieldsValue({
                 title: renameAudiobook.current.title,
@@ -92,9 +93,11 @@ export const FormAdd = () => {
                 cost: renameAudiobook.current.cost,
                 cost_per_play: renameAudiobook.current.cost_per_play,
             });
-            defList.current[0].url= selectedAudioBook.cover;
+            defList.current[0].url = selectedAudioBook?.cover;
+        } else {
+            defList.current[0] = {}
         }
-    }, [selectedAudioBook, form, fileList]);
+    }, [selectedAudioBook, form, showModal]);
 
     useEffect(() => {
         // save the image in cloudinar
@@ -117,7 +120,7 @@ export const FormAdd = () => {
 
 
     /* -------------------------------------------------------------------------- */
-    /*                            load form with datas                            */
+    /*                            load form with data                            */
     /* -------------------------------------------------------------------------- */
 
     // this fucntion serve to light the row added when the audiobook was create
@@ -133,29 +136,58 @@ export const FormAdd = () => {
 
         const newAudiobook = revertMapData(audiobook);
         const fields = { "fields": { ...newAudiobook } };
-        fetchData('POST', fields).then((res => {
-            // update table;
 
-            if (res) {
-                console.log(res);
-                toast('Audiobook Added', {
-                    autoClose: 5000,
-                });
-                // close modal form
-                handleCancel();
-                // cleant input form
-                onReset();
-                // update table
-                setIsAdded(true);
-                // iluminate firts row
-                setTimeout(() => {
-                    signRowAdded();
-                }, 700);
+        if (!selectedAudioBook) {
+            fetchData('POST', fields).then((res => {
+                // update table;
+
+                if (res) {
+                    console.log(res);
+                    toast('Audiobook Added', {
+                        autoClose: 4000,
+                    });
+                    // close modal form
+                    handleCancel();
+                    // cleant input form
+                    onReset();
+                    // update table
+                    setIsAdded(true);
+                    // iluminate firts row
+                    setTimeout(() => {
+                        signRowAdded();
+                    }, 700);
 
 
-            }
+                }
 
-        }))
+            }))
+        } else {
+            console.log(fields);
+            console.log(selectedAudioBook);
+            fetchData('PUT', fields, selectedAudioBook.sys).then((res => {
+                // update table;
+                if (res) {
+                    console.log(res);
+                    toast('Audiobook update', {
+                        autoClose: 4000,
+                    });
+                    // close modal form
+                    handleCancel();
+                    // cleant input form
+                    onReset();
+                    // update table
+                    setIsAdded(true);
+                    // iluminate firts row
+                    setTimeout(() => {
+                        signRowAdded();
+                    }, 700);
+
+
+                }
+
+            }))
+        }
+
     };
 
 
@@ -177,6 +209,20 @@ export const FormAdd = () => {
                 ? updateFileList(info.fileList.splice(0, 1))
                 : updateFileList(info.fileList.filter(file => !!file.status))
         },
+    };
+    const onPreview = async file => {
+        let src = file.url;
+        if (!src) {
+            src = await new Promise(resolve => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file.originFileObj);
+                reader.onload = () => resolve(reader.result);
+            });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow.document.write(image.outerHTML);
     };
     console.log(props);
     return (
@@ -334,10 +380,10 @@ export const FormAdd = () => {
                 getValueFromEvent={normFile}
                 extra="upload the audiobook cover"
                 style={{ display: 'flex', flexDirection: 'row' }}
-                rules={[{ required: true, message: "Please load the audiobook cover" }]}
+                rules={!selectedAudioBook && [{ required: true, message: "Please load the audiobook cover" }]}
             >
                 {/* upload */}
-                <Upload {...props} name="logo"
+                <Upload {...props} onPreview={onPreview} name="logo"
                     listType="picture"
                 >
                     <Button icon={<UploadOutlined />}>Click to upload</Button>

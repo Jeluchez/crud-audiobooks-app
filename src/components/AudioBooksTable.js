@@ -21,7 +21,7 @@ const columns = [
 export const AudioBooksTable = () => {
 
 
-    const { showModal, form } = useContext(FormContext);
+    const { showModal, form, onReset } = useContext(FormContext);
     const { audioBooks, setAudioBooks, setIsAdded, isAdded, setSelectedAudioBook, selectedAudioBook } = useContext(AudiobookContext);
 
     const [stateSelect, setStateSelect] = useState({
@@ -38,12 +38,16 @@ export const AudioBooksTable = () => {
             const ab = mapData(items);
             setLoading(false);
             setAudioBooks(ab);
-
+            console.log(ab)
             // is for indicate elementent add; when isAdded, indica that audiobook was addedd
             setIsAdded(false);
         })
     }, [setAudioBooks, isAdded, setIsAdded, form]);
 
+
+    useEffect(() => {
+        setStateSelect({selectedRowKeys:[]})
+    }, [setIsAdded, isAdded])
 
     const onSelectChange = selectedRowKeys => {
         // console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -116,6 +120,8 @@ export const AudioBooksTable = () => {
                             selectedRowKeys: []
                         })
                         setIsAdded(true);
+                        onReset();
+                        setSelectedAudioBook(null);
                     }
                 });
             },
@@ -124,14 +130,6 @@ export const AudioBooksTable = () => {
             },
         });
     }
-    // function error() {
-    //     Modal.error({
-    //         title: 'This is an error message',
-    //         content: 'could not be deleted, check with the administrator',
-    //     });
-    // }
-
-    // 
 
     return (
         <div className="m-table-container">
@@ -148,7 +146,7 @@ export const AudioBooksTable = () => {
                 {/* si no hay elemento seleccionado muestre el botton agregar */}
                 {
                      
-                    !selectedAudioBook
+                    selectedRowKeys.length === 0
                         ? (
                             <div className="box-btn-add" onClick={showModal}>
                                 <PlusOutlined className="btn-add-book" />

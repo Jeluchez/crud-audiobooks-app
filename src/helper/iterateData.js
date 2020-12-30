@@ -5,7 +5,8 @@ export const mapData = items => items.map((item) => {
     const fields = renameData(item.fields);
     return {
         ...fields,
-        key: item.sys.id
+        key: item.sys.id,
+        sys: item.sys
     }
 })
 
