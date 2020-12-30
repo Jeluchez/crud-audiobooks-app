@@ -1,11 +1,11 @@
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Input, InputNumber, Form, message, Row, Col, TimePicker, Upload } from 'antd';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import {toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { AudiobookContext } from '../contex/AudiobookContext';
 import { FormContext } from '../contex/FormContext';
 import { fetchData } from '../helper/fetch';
-import { revertMapData } from '../helper/iterateData';
+import { revertMapData, renameDataToForm } from '../helper/iterateData';
 import { fileUpload } from '../helper/upload';
 
 
@@ -56,23 +56,45 @@ const normFile = e => {
 
 export const FormAdd = () => {
 
-    const { setIsAdded, selectedAudioBook } = useContext(AudiobookContext);
-    const { handleCancel, form} = useContext(FormContext);
-
-    const [fileList, updateFileList] = useState([]);
+    const { setIsAdded, selectedAudioBook, setSselectedAudioBook } = useContext(AudiobookContext);
+    const { handleCancel, form, onReset } = useContext(FormContext);
 
     const signal = useRef(0);
     const coverUrlRef = useRef('');
-    const [loadindImage, setLoadindImage] = useState(true);
+
+    const [loadindImage, setLoadindImage] = useState(false);
     const [loadindBtn, setLoadindBtn] = useState(false);
 
+    const [fileList, updateFileList] = useState([]);
+
+    const defList = useRef([
+        {
+            uid: '1',
+            name: selectedAudioBook?.title,
+            status: 'done',
+            response: 'Server Error 500', // custom error message to show
+            url: selectedAudioBook?.cover
+        },
+    ])
+
+    const renameAudiobook = useRef(null);
 
     useEffect(() => {
+        // setDefList([]);
         // there are selected audiobook then assign to form
-        console.log(selectedAudioBook);
-        // form.setFieldsValue({...selectedAudioBook});
-        // selectedAudioBook && form.setFieldsValue(selectedAudioBook);
-    }, [selectedAudioBook, form]);
+        if (selectedAudioBook) {
+            renameAudiobook.current = renameDataToForm(selectedAudioBook);
+            form.setFieldsValue({
+                title: renameAudiobook.current.title,
+                authors: renameAudiobook.current.authors,
+                narrators: renameAudiobook.current.narrators,
+                duration: renameAudiobook.current.duration,
+                cost: renameAudiobook.current.cost,
+                cost_per_play: renameAudiobook.current.cost_per_play,
+            });
+            defList.current[0].url= selectedAudioBook.cover;
+        }
+    }, [selectedAudioBook, form, fileList]);
 
     useEffect(() => {
         // save the image in cloudinar
@@ -94,17 +116,17 @@ export const FormAdd = () => {
 
 
 
-/* -------------------------------------------------------------------------- */
-/*                            load form with datas                            */
-/* -------------------------------------------------------------------------- */
+    /* -------------------------------------------------------------------------- */
+    /*                            load form with datas                            */
+    /* -------------------------------------------------------------------------- */
 
-   
+    // this fucntion serve to light the row added when the audiobook was create
     const signRowAdded = () => {
         const row = document.querySelector('.ant-table-tbody tr.ant-table-measure-row + tr');
         row.classList.toggle('lightRow');
     }
     const onFinish = values => {
-        const audiobook  = values;
+        const audiobook = values;
         console.log(audiobook);
         // add url cover
         audiobook.cover = coverUrlRef.current;
@@ -136,11 +158,10 @@ export const FormAdd = () => {
         }))
     };
 
-    const onReset = () => {
-        form.resetFields();
-    };
+
 
     const props = {
+        defaultFileList: defList.current,
         fileList,
         beforeUpload: file => {
             if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
@@ -148,7 +169,7 @@ export const FormAdd = () => {
             }
             console.log(form.getFieldsValue());
             return (file.type === 'image/png' || file.type === 'image/jpeg');
-           
+
         },
         onChange: info => {
             signal.current += 1;
@@ -157,12 +178,13 @@ export const FormAdd = () => {
                 : updateFileList(info.fileList.filter(file => !!file.status))
         },
     };
+    console.log(props);
     return (
 
 
         <Form {...formItemLayout} form={form} name="form-add-update" onFinish={onFinish}
             className="form-add"
-            initialValues={selectedAudioBook}
+        // initialValues={renameAudiobook.current}
         >
             <Form.Item name={'title'} label="Title"
                 rules={[{ required: true, message: "Please input audiobook title" }]}

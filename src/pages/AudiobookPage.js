@@ -10,7 +10,7 @@ import { FormContext } from '../contex/FormContext';
 
 
 export const AudiobookPage = () => {
-    const {handleOk, handleCancel, isModalVisible } = useContext(FormContext);
+    const {handleOk, handleCancel, isModalVisible,onReset } = useContext(FormContext);
 
     return (
         <div className="audiobook__container">
@@ -20,6 +20,8 @@ export const AudiobookPage = () => {
 
             <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk}
                 onCancel={handleCancel}
+                maskClosable={false}
+                afterClose={onReset}
             >
                 <FormAdd />
             </Modal>

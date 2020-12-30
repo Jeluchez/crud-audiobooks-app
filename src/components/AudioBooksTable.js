@@ -22,7 +22,7 @@ export const AudioBooksTable = () => {
 
 
     const { showModal, form } = useContext(FormContext);
-    const { audioBooks, setAudioBooks, setIsAdded, isAdded,setSelectedAudioBook } = useContext(AudiobookContext);
+    const { audioBooks, setAudioBooks, setIsAdded, isAdded, setSelectedAudioBook, selectedAudioBook } = useContext(AudiobookContext);
 
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
@@ -56,7 +56,7 @@ export const AudioBooksTable = () => {
         const audibookRow = audioBooks.find((row) => row.key === selectedRowKeys[0]);
         return audibookRow;
     }
-   
+
     const rowSelection = {
         selectedRowKeys,
         onChange: onSelectChange,
@@ -136,16 +136,7 @@ export const AudioBooksTable = () => {
     return (
         <div className="m-table-container">
             <div className="table-info d-flex align-items-center">
-                <div className="bnts-operations d-flex justify-content-center align-items-center">
-                    {
-                        (selectedRowKeys.length === 1)
-                        && <EditOutlined className="btn-edit-book" onClick={showModal} />
-                    }
-                    {
-                        (selectedRowKeys.length > 0)
-                        && <DeleteOutlined className="btn-delete-book" onClick={showConfirm} />
-                    }
-                </div>
+
 
                 <span className="table-row-selected">
                     {selectedRowKeys.length} row selected
@@ -154,9 +145,29 @@ export const AudioBooksTable = () => {
                     <span>showing</span> 1-5 of 1000
                 </div>
 
-                <div className="box-btn-add" onClick={showModal}>
-                    <PlusOutlined className="btn-add-book" />
-                </div>
+                {/* si no hay elemento seleccionado muestre el botton agregar */}
+                {
+                     
+                    !selectedAudioBook
+                        ? (
+                            <div className="box-btn-add" onClick={showModal}>
+                                <PlusOutlined className="btn-add-book" />
+                            </div>
+                        )
+                        : (
+                            <div className="bnts-operations d-flex justify-content-center align-items-center" style={{marginLeft: 'auto'}}>
+                                {
+                                    (selectedRowKeys.length === 1)
+                                    && <EditOutlined className="btn-edit-book" onClick={showModal} />
+                                }
+                                {
+                                    (selectedRowKeys.length > 0)
+                                    && <DeleteOutlined className="btn-delete-book" onClick={showConfirm} />
+                                }
+
+                            </div>
+                        )
+                }
 
             </div>
             <Table

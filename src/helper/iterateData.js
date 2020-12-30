@@ -9,7 +9,7 @@ export const mapData = items => items.map((item) => {
     }
 })
 
-function renameData(field) {
+export function renameData(field) {
 
     let newField = null;
 
@@ -40,22 +40,30 @@ function renameData(field) {
     }
     return newField;
 }
+export function renameDataToForm(field) {
+
+
+    field['duration']= moment(field['duration'], 'HH:mm:ss')
+    field['street_date'] = field['dateToSort']
+          
+    return field;
+}
 
 export const revertMapData = (audiobook) => {
 
     let newAudioBook = null;
     // convert to milisecondst
-    audiobook.duration = moment(audiobook.duration).valueOf(); 
+    audiobook.duration = moment(audiobook.duration).valueOf();
     audiobook.street_date = moment().format('YYYY-MM-DD');
     // console.log(audiobook.street_date);
     audiobook.is_original = false;
-    
+
     for (const prop in audiobook) {
         newAudioBook = {
             ...newAudioBook,
-            [prop] : { 'es-MX': audiobook[prop] }
+            [prop]: { 'es-MX': audiobook[prop] }
         }
-       
+
     }
     return newAudioBook;
 }
