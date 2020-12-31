@@ -7,6 +7,7 @@ export const FormProvider = ({ children }) => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
+  
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -32,7 +33,7 @@ export const FormProvider = ({ children }) => {
             isModalVisible,
             setIsModalVisible,
             form,
-            onReset
+            onReset,
         }}>
             { children}
         </FormContext.Provider>

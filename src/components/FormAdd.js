@@ -2,10 +2,11 @@ import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/i
 import { Button, Input, InputNumber, Form, message, Row, Col, TimePicker, Upload } from 'antd';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 import { AudiobookContext } from '../contex/AudiobookContext';
 import { FormContext } from '../contex/FormContext';
 import { fetchData } from '../helper/fetch';
-import { revertMapData, renameDataToForm } from '../helper/iterateData';
+import { revertMapData } from '../helper/iterateData';
 import { fileUpload } from '../helper/upload';
 
 
@@ -71,47 +72,45 @@ export const FormAdd = () => {
     const [fileList, updateFileList] = useState([]);
 
     const { selected } = selectedAudioBook;
-
-    const renameAudiobook = useRef(null);
+    console.log(selected);
+    // const keepCoverRef = useRef(selected.cover);
 
     useEffect(() => {
-        // setDefList([]);
-        // there are selected audiobook then assign to form
+        // if hay algo seleccionado cargue esos datos en el form
         if (selected) {
-            renameAudiobook.current = renameDataToForm(selected);
+            // renameAudiobook.current = renameDataToForm(selected);
             form.setFieldsValue({
-                title: renameAudiobook.current.title,
-                authors: renameAudiobook.current.authors,
-                narrators: renameAudiobook.current.narrators,
-                duration: renameAudiobook.current.duration,
-                cost: renameAudiobook.current.cost,
-                cover: [
-                    {
-                        uid: '1',
-                        name: selected?.title,
-                        status: 'done',
-                        url: selected?.cover
-                    },
-                ],
-                cost_per_play: renameAudiobook.current.cost_per_play,
+                title: selected.title,
+                authors: selected.authors,
+                narrators: selected.narrators,
+                duration: moment(selected.duration, 'HH:mm:ss'),
+                cost: selected.cost,
+                cover: [{
+                    uid: '1',
+                    name: selected?.title,
+                    status: 'done',
+                    url: selected?.cover
+                }],
+                cost_per_play: selected.cost_per_play,
             });
+        } else {
+            // si no hay nada seleccionado resete the value
+            onReset();
         }
-    }, [selected, form, showModal]);
+    }, [selected, form, showModal, onReset]);
 
     useEffect(() => {
         // save the image in cloudinar
-        const cover = fileList[0]?.originFileObj ;
+        const cover = fileList[0]?.originFileObj;
         if (cover) {
             // capturó la imageOrientation
-            console.log('ca´pturo la imagen');
             setLoading(s => ({ ...s, lBtn: true, lImage: true }));
             // este 3 lo coloqué porque el componente upload se renderiza 3 veces
-            if (signal.current ===3) {
+            if (signal.current === 3) {
                 const coverUrl = fileUpload(cover);
                 coverUrl.then((url) => {
                     coverUrlRef.current = url;
                     signal.current = 0;
-                    console.log('subio file: ', url);
                     setLoading(s => ({ ...s, lImage: false }));
                 })
             }
@@ -130,21 +129,19 @@ export const FormAdd = () => {
         const row = document.querySelector('.ant-table-tbody tr.ant-table-measure-row + tr');
         row.classList.toggle('lightRow');
     }
-    const onFinish = values => {
-        const audiobook = values;
-        console.log(audiobook);
-        // add url cover
+    const onFinish = audiobook => {
 
-        audiobook.cover = coverUrlRef.current;
-
+        // add url of the image(cover)
+        audiobook.cover= coverUrlRef.current ? coverUrlRef.current :  audiobook.cover  ;
         const newAudiobook = revertMapData(audiobook);
         const fields = { "fields": { ...newAudiobook } };
-
+        console.log(fields);
         if (!selected) {
             fetchData('POST', fields).then((res => {
                 // update table;
-
+                setLoading(s => ({ ...s, lImage: true }))
                 if (res) {
+                    setLoading(s => ({ ...s, lImage: false }))
                     console.log(res);
                     toast('Audiobook Added', {
                         autoClose: 4000,
@@ -164,8 +161,7 @@ export const FormAdd = () => {
 
             }))
         } else {
-            console.log(fields);
-            console.log(selected);
+            // console.log(selected);
             fetchData('PUT', fields, selected.sys).then((res => {
                 // update table;
                 if (res) {
@@ -199,35 +195,32 @@ export const FormAdd = () => {
             const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
 
             if (!isJpgOrPng) {
-                
+
                 setLoading({ lImage: false, lBtn: false });
-             
+
                 return message.error(`Must upload jpg or png images`);
-               
+
             }
 
             if (!isLt2M) {
-                
+
                 setLoading({ lImage: false, lBtn: false });
-               
-                
+
+
                 return message.error('Image must smaller than 2MB!');
             }
             return isJpgOrPng && isLt2M;
 
         },
         onChange: info => {
-            console.log('rendering');
-            // if (info.file.status === 'removed') {
-            //     return;
-            // }
+            // console.log('rendering');
             signal.current += 1;
             info.fileList.length > 1
                 ? updateFileList(info.fileList.splice(0, 1))
                 : updateFileList(info.fileList.filter(file => !!file.status))
         },
     };
-    console.log(props);
+    // console.log(props);
     return (
 
 

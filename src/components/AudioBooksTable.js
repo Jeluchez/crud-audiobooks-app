@@ -12,10 +12,10 @@ import { AudiobookContext } from '../contex/AudiobookContext';
 const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
     // { title: 'Conten Type', dataIndex: 'content-type', key: 'contentType', responsive: ['lg'] },
-    { title: 'Updated', dataIndex: 'street_date', key: 'street_date', responsive: ['lg'], sorter: (a, b) => moment(a.dateToSort, 'DD-MM-YYYY, h:mm:ss') - moment(b.dateToSort, 'DD-MM-YYYY') },
+    { title: 'Updated', dataIndex: 'street_date', key: 'street_date', responsive: ['lg'], sorter: (a, b) => moment(a.dateToSort, 'DD-MM-YYYY, h:mm:ss') - moment(b.dateToSort, 'DD-MM-YYYY, h:mm:ss') },
     {
         title: 'Authors', dataIndex: 'authors', key: 'authors', responsive: ['sm'],
-        render: authors => authors.map(author => (<div className="outer-author">{author}</div>))
+        render: authors => authors.map((author,i) => (<div key={i} className="outer-author">{author}</div>))
     },
     { title: 'Cost per play', dataIndex: 'cost_per_play', key: 'cost_per_play', responsive: ['md'], sorter: (a, b) => a.cost_per_play - b.cost_per_play },
     { title: 'Duration (h:m)', dataIndex: 'duration', key: 'duration', responsive: ['md'], sorter: (a, b) => moment(a.duration, 'HH:mm:ss') - moment(b.duration, 'HH:mm:ss') },
@@ -33,44 +33,49 @@ export const AudioBooksTable = () => {
 
 
     const { showModal, form, onReset } = useContext(FormContext);
-    const { audioBooks, setAudioBooks, setIsAdded, setSelectedAudioBook, selectedAudioBook } = useContext(AudiobookContext);
+    const { audioBooks, setAudioBooks, setSelectedAudioBook, selectedAudioBook } = useContext(AudiobookContext);
 
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
     });
-    const [loading, setLoading] = useState(true);
 
     const { selectedRowKeys } = stateSelect;
     const { isAdded, selected } = selectedAudioBook;
+    const { audiobooksData, loading } = audioBooks;
     // console.log(isAdded);
 
 
     useEffect(() => {
         fetchData().then(({ items }) => {
             const ab = mapData(items);
-            setLoading(false);
-            setAudioBooks(ab);
-            console.log(ab)
+            setAudioBooks({ audiobooksData: ab, loading: false });
             // is for indicate elementent add; when isAdded, indica that audiobook was addedd
-            setSelectedAudioBook(s => ({ ...s, isAdded: false }));
+            setSelectedAudioBook(s => ({ ...s, isAdded: false, selected: null }));
         })
     }, [setAudioBooks, setSelectedAudioBook, isAdded, form]);
 
 
     useEffect(() => {
         setStateSelect({ selectedRowKeys: [] })
-    }, [setIsAdded, isAdded])
+    }, [isAdded])
 
     const onSelectChange = selectedRowKeys => {
         // console.log('selectedRowKeys changed: ', selectedRowKeys);
         setStateSelect({ selectedRowKeys });
-        setSelectedAudioBook(state => ({ ...state, selected: getRow(selectedRowKeys) }));
+        // Si hay algo seleccionando entonces asignelo a un audibook
+        if (selectedRowKeys.length > 0) {
+            setSelectedAudioBook(s => ({ ...s, selected: getRow(selectedRowKeys) }));
+        }
+        // si no hay nada entonces elimine ese audioobook
+        else {
+            setSelectedAudioBook(s => ({ ...s, selected: null }));
+        }
+
     }
 
     const getRow = (selectedRowKeys) => {
-        // console.log(selectedRowKeys)
-        const audibookRow = audioBooks.find((row) => row.key === selectedRowKeys[0]);
-        return audibookRow;
+        const audiobookRow = audiobooksData.find((row) => row.key === selectedRowKeys[0]);
+        return audiobookRow;
     }
 
     const rowSelection = {
@@ -182,7 +187,7 @@ export const AudioBooksTable = () => {
             <Table
                 rowSelection={rowSelection}
                 columns={columns}
-                dataSource={audioBooks}
+                dataSource={audiobooksData}
                 expandable={{
                     expandedRowRender: record => <p style={{ margin: 0 }}>Hello</p>,
                     rowExpandable: record => record.name !== 'Not Expandable',
