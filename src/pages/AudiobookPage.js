@@ -7,10 +7,14 @@ import { SearchForm } from '../components/SearchForm'
 import { FormAdd } from '../components/FormAdd';
 
 import { FormContext } from '../contex/FormContext';
+import { AudiobookContext } from '../contex/AudiobookContext';
 
 
 export const AudiobookPage = () => {
     const { handleOk, handleCancel, isModalVisible, onReset } = useContext(FormContext);
+    const { selectedAudioBook } = useContext(AudiobookContext);
+
+    const {selected} = selectedAudioBook
 
     return (
         <div className="audiobook__container">
@@ -18,7 +22,7 @@ export const AudiobookPage = () => {
             <AudioBooksTable />
             {/* <OwnTable/> */}
 
-            <Modal title="Basic Modal"
+            <Modal title={selected ? "Update Form" : "Register Form"}
                style={{ top: 20 }}
                 visible={isModalVisible}
                 onOk={handleOk}

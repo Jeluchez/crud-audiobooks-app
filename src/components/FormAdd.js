@@ -387,7 +387,7 @@ export const FormAdd = () => {
             </Form.Item>
             <Form.Item wrapperCol={{ ...formItemLayoutWithOutLabel.wrapperCol }}>
                 <Button type="primary" htmlType="submit" style={{ width: '140px' }} loading={lImage && lBtn} disabled={lImage}>
-                    Send
+                    {selected ? 'Update' : "Insert"}
                 </Button>
             </Form.Item>
         </Form>
