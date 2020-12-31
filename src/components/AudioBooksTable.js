@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Table } from 'antd';
+import { Table, Image } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import confirm from 'antd/lib/modal/confirm';
@@ -13,10 +13,21 @@ const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
     // { title: 'Conten Type', dataIndex: 'content-type', key: 'contentType', responsive: ['lg'] },
     { title: 'Updated', dataIndex: 'street_date', key: 'street_date', responsive: ['lg'], sorter: (a, b) => moment(a.dateToSort, 'DD-MM-YYYY, h:mm:ss') - moment(b.dateToSort, 'DD-MM-YYYY') },
-    { title: 'Authors', dataIndex: 'authors', key: 'authors', responsive: ['sm'] },
+    {
+        title: 'Authors', dataIndex: 'authors', key: 'authors', responsive: ['sm'],
+        render: authors => authors.map(author => (<div className="outer-author">{author}</div>))
+    },
     { title: 'Cost per play', dataIndex: 'cost_per_play', key: 'cost_per_play', responsive: ['md'], sorter: (a, b) => a.cost_per_play - b.cost_per_play },
     { title: 'Duration (h:m)', dataIndex: 'duration', key: 'duration', responsive: ['md'], sorter: (a, b) => moment(a.duration, 'HH:mm:ss') - moment(b.duration, 'HH:mm:ss') },
-    { title: 'Cover', dataIndex: 'cover', key: 'cover', responsive: ['lg'], render: cover => <div className="outer-image"><img alt={cover} src={cover} className="imageTable" /></div>, },
+    {
+        title: 'Cover', dataIndex: 'cover', key: 'cover', responsive: ['lg'], render: cover => <div className="outer-image">
+            <Image
+                width={80}
+                src={cover}
+                className="imageTable"
+                alt={cover}
+            /></div>,
+    },
 ];
 export const AudioBooksTable = () => {
 
@@ -30,7 +41,7 @@ export const AudioBooksTable = () => {
     const [loading, setLoading] = useState(true);
 
     const { selectedRowKeys } = stateSelect;
-    const { isAdded, selected} = selectedAudioBook;
+    const { isAdded, selected } = selectedAudioBook;
     // console.log(isAdded);
 
 
@@ -41,19 +52,19 @@ export const AudioBooksTable = () => {
             setAudioBooks(ab);
             console.log(ab)
             // is for indicate elementent add; when isAdded, indica that audiobook was addedd
-            setSelectedAudioBook(s => ({...s, isAdded:false}));
+            setSelectedAudioBook(s => ({ ...s, isAdded: false }));
         })
-    }, [setAudioBooks,setSelectedAudioBook, isAdded, form]);
+    }, [setAudioBooks, setSelectedAudioBook, isAdded, form]);
 
 
     useEffect(() => {
-        setStateSelect({selectedRowKeys:[]})
+        setStateSelect({ selectedRowKeys: [] })
     }, [setIsAdded, isAdded])
 
     const onSelectChange = selectedRowKeys => {
         // console.log('selectedRowKeys changed: ', selectedRowKeys);
         setStateSelect({ selectedRowKeys });
-        setSelectedAudioBook(state=>({...state,selected:getRow(selectedRowKeys)}));
+        setSelectedAudioBook(state => ({ ...state, selected: getRow(selectedRowKeys) }));
     }
 
     const getRow = (selectedRowKeys) => {
@@ -121,7 +132,7 @@ export const AudioBooksTable = () => {
                             selectedRowKeys: []
                         })
                         onReset();
-                        setSelectedAudioBook({isAdded:true,selected:null});
+                        setSelectedAudioBook({ isAdded: true, selected: null });
                     }
                 });
             },
@@ -145,7 +156,7 @@ export const AudioBooksTable = () => {
 
                 {/* si no hay elemento seleccionado muestre el botton agregar */}
                 {
-                     
+
                     selectedRowKeys.length === 0
                         ? (
                             <div className="box-btn-add" onClick={showModal}>
@@ -153,7 +164,7 @@ export const AudioBooksTable = () => {
                             </div>
                         )
                         : (
-                            <div className="bnts-operations d-flex justify-content-center align-items-center" style={{marginLeft: 'auto'}}>
+                            <div className="bnts-operations d-flex justify-content-center align-items-center" style={{ marginLeft: 'auto' }}>
                                 {
                                     (selectedRowKeys.length === 1)
                                     && <EditOutlined className="btn-edit-book" onClick={showModal} />
