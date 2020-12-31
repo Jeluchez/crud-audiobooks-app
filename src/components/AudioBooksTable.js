@@ -22,14 +22,15 @@ export const AudioBooksTable = () => {
 
 
     const { showModal, form, onReset } = useContext(FormContext);
-    const { audioBooks, setAudioBooks, setIsAdded, isAdded, setSelectedAudioBook, selectedAudioBook } = useContext(AudiobookContext);
+    const { audioBooks, setAudioBooks, setIsAdded, setSelectedAudioBook, selectedAudioBook } = useContext(AudiobookContext);
 
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
     });
     const [loading, setLoading] = useState(true);
-    const { selectedRowKeys } = stateSelect;
 
+    const { selectedRowKeys } = stateSelect;
+    const { isAdded, selected} = selectedAudioBook;
     // console.log(isAdded);
 
 
@@ -42,7 +43,7 @@ export const AudioBooksTable = () => {
             // is for indicate elementent add; when isAdded, indica that audiobook was addedd
             setSelectedAudioBook(s => ({...s, isAdded:false}));
         })
-    }, [setAudioBooks,setSelectedAudioBook, form]);
+    }, [setAudioBooks,setSelectedAudioBook, isAdded, form]);
 
 
     useEffect(() => {

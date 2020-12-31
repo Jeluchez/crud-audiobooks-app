@@ -62,12 +62,15 @@ export const FormAdd = () => {
     const signal = useRef(0);
     const coverUrlRef = useRef('');
 
-    const [loadindImage, setLoadindImage] = useState(true);
-    const [loadindBtn, setLoadindBtn] = useState(true);
+    const [loading, setLoading] = useState({
+        lImage: false,
+        lBtn: false
+    });
+    const { lImage, lBtn } = loading;
 
     const [fileList, updateFileList] = useState([]);
 
-    const {isAdded, selected} = selectedAudioBook;
+    const { selected } = selectedAudioBook;
 
     const renameAudiobook = useRef(null);
 
@@ -92,27 +95,29 @@ export const FormAdd = () => {
                 ],
                 cost_per_play: renameAudiobook.current.cost_per_play,
             });
-            console.log(selected);
         }
     }, [selected, form, showModal]);
 
     useEffect(() => {
         // save the image in cloudinar
-        const cover = fileList[0]?.originFileObj;
+        const cover = fileList[0]?.originFileObj ;
         if (cover) {
-            setLoadindBtn(true);
+            // capturó la imageOrientation
+            console.log('ca´pturo la imagen');
+            setLoading(s => ({ ...s, lBtn: true, lImage: true }));
             // este 3 lo coloqué porque el componente upload se renderiza 3 veces
-            if (signal.current === 3) {
+            if (signal.current ===3) {
                 const coverUrl = fileUpload(cover);
                 coverUrl.then((url) => {
                     coverUrlRef.current = url;
                     signal.current = 0;
-                    setLoadindImage(false);
+                    console.log('subio file: ', url);
+                    setLoading(s => ({ ...s, lImage: false }));
                 })
             }
         }
 
-    }, [signal, fileList]);
+    }, [signal, fileList, setLoading]);
 
 
 
@@ -147,7 +152,7 @@ export const FormAdd = () => {
                     // close modal form
                     handleCancel();
                     // cleant input form
-                    setSelectedAudioBook({isAdded:true,selected:null});
+                    setSelectedAudioBook({ isAdded: true, selected: null });
                     onReset();
                     // iluminate firts row
                     setTimeout(() => {
@@ -169,8 +174,8 @@ export const FormAdd = () => {
                         autoClose: 4000,
                     });
                     handleCancel();
-                   
-                    setSelectedAudioBook({isAdded:true,selected:null});
+
+                    setSelectedAudioBook({ isAdded: true, selected: null });
                     onReset();
                     setTimeout(() => {
                         signRowAdded();
@@ -189,14 +194,33 @@ export const FormAdd = () => {
     const props = {
         fileList,
         beforeUpload: file => {
-            if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+
+            if (!isJpgOrPng) {
+                
+                setLoading({ lImage: false, lBtn: false });
+             
                 return message.error(`Must upload jpg or png images`);
+               
             }
-            console.log(form.getFieldsValue());
-            return (file.type === 'image/png' || file.type === 'image/jpeg');
+
+            if (!isLt2M) {
+                
+                setLoading({ lImage: false, lBtn: false });
+               
+                
+                return message.error('Image must smaller than 2MB!');
+            }
+            return isJpgOrPng && isLt2M;
 
         },
         onChange: info => {
+            console.log('rendering');
+            // if (info.file.status === 'removed') {
+            //     return;
+            // }
             signal.current += 1;
             info.fileList.length > 1
                 ? updateFileList(info.fileList.splice(0, 1))
@@ -369,7 +393,7 @@ export const FormAdd = () => {
                 </Upload>
             </Form.Item>
             <Form.Item wrapperCol={{ ...formItemLayoutWithOutLabel.wrapperCol }}>
-                <Button type="primary" htmlType="submit" style={{ width: '140px' }} loading={loadindImage && loadindBtn} disabled={loadindImage}>
+                <Button type="primary" htmlType="submit" style={{ width: '140px' }} loading={lImage && lBtn} disabled={lImage}>
                     Send
                 </Button>
             </Form.Item>
