@@ -40,9 +40,9 @@ export const AudioBooksTable = () => {
             setAudioBooks(ab);
             console.log(ab)
             // is for indicate elementent add; when isAdded, indica that audiobook was addedd
-            setIsAdded(false);
+            setSelectedAudioBook(s => ({...s, isAdded:false}));
         })
-    }, [setAudioBooks, isAdded, setIsAdded, form]);
+    }, [setAudioBooks,setSelectedAudioBook, form]);
 
 
     useEffect(() => {
@@ -52,7 +52,7 @@ export const AudioBooksTable = () => {
     const onSelectChange = selectedRowKeys => {
         // console.log('selectedRowKeys changed: ', selectedRowKeys);
         setStateSelect({ selectedRowKeys });
-        setSelectedAudioBook(getRow(selectedRowKeys));
+        setSelectedAudioBook(state=>({...state,selected:getRow(selectedRowKeys)}));
     }
 
     const getRow = (selectedRowKeys) => {
@@ -119,9 +119,8 @@ export const AudioBooksTable = () => {
                         setStateSelect({
                             selectedRowKeys: []
                         })
-                        setIsAdded(true);
                         onReset();
-                        setSelectedAudioBook(null);
+                        setSelectedAudioBook({isAdded:true,selected:null});
                     }
                 });
             },
