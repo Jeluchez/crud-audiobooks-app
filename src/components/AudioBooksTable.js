@@ -5,7 +5,7 @@ import moment from 'moment';
 import confirm from 'antd/lib/modal/confirm';
 
 import { FormContext } from '../contex/FormContext';
-import { fetchData } from '../helper/fetch';
+import { fetchData, loadAudiobooks } from '../helper/fetch';
 import { mapData } from '../helper/iterateData';
 import { AudiobookContext } from '../contex/AudiobookContext';
 
@@ -38,7 +38,6 @@ export const AudioBooksTable = () => {
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
     });
-
     const { selectedRowKeys } = stateSelect;
     const { isAdded, selected } = selectedAudioBook;
     const { audiobooksData, loading } = audioBooks;
@@ -46,9 +45,9 @@ export const AudioBooksTable = () => {
 
 
     useEffect(() => {
-        fetchData().then(({ items }) => {
-            const ab = mapData(items);
-            setAudioBooks({ audiobooksData: ab, loading: false });
+        loadAudiobooks().then((audiobookFromApi) => {
+            // console.log(ab);
+            setAudioBooks({ audiobooksData: audiobookFromApi, loading: false });
             // is for indicate elementent add; when isAdded, indica that audiobook was addedd
             setSelectedAudioBook(s => ({ ...s, isAdded: false, selected: null }));
         })

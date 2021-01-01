@@ -1,3 +1,5 @@
+import { mapData } from "./iterateData";
+
 const baseUrl = 'https://api.contentful.com/spaces/1t4hjzo7y0kb/environments/master/entries?select=fields,sys.id,sys.version&locale=es-MX';
 const token = 'Bearer CFPAT-LBtveUvtDi7YjAhsyNzZURthngcrVnIr53eOZjYnxuc';
 const urlEntries = 'https://api.contentful.com/spaces/1t4hjzo7y0kb/environments/master/entries'
@@ -42,4 +44,10 @@ export const fetchData = async (method = 'GET', data, sys=null) => {
 
     }
 
+}
+
+export const loadAudiobooks = async () => {
+    const { items } = await fetchData();
+    //    mapea los datos para que la tabla pueda ordenarlos
+    return mapData(items);
 }

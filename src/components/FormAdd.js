@@ -57,7 +57,7 @@ const normFile = e => {
 
 export const FormAdd = () => {
 
-    const { selectedAudioBook, setSelectedAudioBook } = useContext(AudiobookContext);
+    const { selectedAudioBook, setSelectedAudioBook} = useContext(AudiobookContext);
     const { handleCancel, form, onReset, showModal } = useContext(FormContext);
 
     const signal = useRef(0);
@@ -72,7 +72,7 @@ export const FormAdd = () => {
     const [fileList, updateFileList] = useState([]);
 
     const { selected } = selectedAudioBook;
-    console.log(selected);
+    // console.log(selected);
     // const keepCoverRef = useRef(selected.cover);
 
     useEffect(() => {
