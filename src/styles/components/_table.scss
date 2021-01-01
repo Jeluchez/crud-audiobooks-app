@@ -145,11 +145,18 @@ a:not([href]):not([class]) {
 
 // start table image
 .outer-image {
+    cursor: pointer;
     overflow: hidden;
-    width: min(rem(60), rem(150), rem(200));
-    height: min(rem(60), rem(150), rem(200));
+    width: rem(40);
+    height: rem(40);
     border-radius: 100%;
     margin: 0;
+    img{
+        transition: .3s all;
+    }
+    &:hover img{
+        transform: scale(1.5,1.5);
+    }
 }
 
 .imageTable {

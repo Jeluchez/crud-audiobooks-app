@@ -12,7 +12,7 @@ import { AudiobookContext } from '../contex/AudiobookContext';
 const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
     // { title: 'Conten Type', dataIndex: 'content-type', key: 'contentType', responsive: ['lg'] },
-    { title: 'Updated', dataIndex: 'street_date', key: 'street_date', responsive: ['lg'], sorter: (a, b) => moment(a.dateToSort, 'DD-MM-YYYY, h:mm:ss') - moment(b.dateToSort, 'DD-MM-YYYY, h:mm:ss') },
+    { title: 'Street Date', dataIndex: 'dateToSort', key: 'dateToSort', responsive: ['lg'], sorter: (a, b) => moment(a.dateToSort, 'DD-MM-YYYY, h:mm:ss') - moment(b.dateToSort, 'DD-MM-YYYY, h:mm:ss') },
     {
         title: 'Authors', dataIndex: 'authors', key: 'authors', responsive: ['sm'],
         render: authors => authors.map((author,i) => (<div key={i} className="outer-author">{author}</div>))

@@ -57,7 +57,7 @@ const normFile = e => {
 
 export const FormAdd = () => {
 
-    const { selectedAudioBook, setSelectedAudioBook} = useContext(AudiobookContext);
+    const { selectedAudioBook, setSelectedAudioBook } = useContext(AudiobookContext);
     const { handleCancel, form, onReset, showModal } = useContext(FormContext);
 
     const signal = useRef(0);
@@ -112,7 +112,9 @@ export const FormAdd = () => {
                     coverUrlRef.current = url;
                     signal.current = 0;
                     setLoading(s => ({ ...s, lImage: false }));
-                })
+                }).catch(err => {
+                    setLoading(s => ({ ...s, lImage: false }));
+                });
             }
         }
 
@@ -132,7 +134,7 @@ export const FormAdd = () => {
     const onFinish = audiobook => {
 
         // add url of the image(cover)
-        audiobook.cover= coverUrlRef.current ? coverUrlRef.current :  audiobook.cover  ;
+        audiobook.cover = coverUrlRef.current ? coverUrlRef.current : audiobook.cover;
         const newAudiobook = revertMapData(audiobook);
         const fields = { "fields": { ...newAudiobook } };
         console.log(fields);
@@ -198,8 +200,8 @@ export const FormAdd = () => {
 
                 setLoading({ lImage: false, lBtn: false });
 
-                 message.error(`Must upload jpg or png images`);
-                 return Promise.reject(new Error('fail')).then();
+                message.error(`Must upload jpg or png images`);
+                return Promise.reject(new Error('fail')).then();
 
             }
 
@@ -357,8 +359,21 @@ export const FormAdd = () => {
                 <Col span={12} style={{ textAlign: 'right' }}>
                     <Form.Item name={'duration'} label="duration" {...formItemLayouDurationCost}
                         labelAlign="right"
-                        rules={[{ type: 'object', required: true, message: "Please input audiobook duration" }]}>
-                        <TimePicker style={{ width: '100%' }} />
+                        rules={[{ type: 'object', required: true, message: "Please input audiobook duration" }]}
+                    >
+
+                        {/* <TimePicker style={{ width: '100%' }} /> */}
+                        <Row gutter={{ xs: 24 }}>
+                            <Col span={8}>
+                                <InputNumber style={{ width: '30px' }} max={60} min={0} />
+                            </Col>
+                            <Col span={8} >
+                                <InputNumber style={{ width: '30px%' }} max={60} min={1} />
+                            </Col>
+                            <Col span={8}>
+                                <InputNumber style={{ width: '30px%' }} max={60} min={1} />
+                            </Col>
+                        </Row>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
