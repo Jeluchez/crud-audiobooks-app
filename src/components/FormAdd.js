@@ -198,7 +198,8 @@ export const FormAdd = () => {
 
                 setLoading({ lImage: false, lBtn: false });
 
-                return message.error(`Must upload jpg or png images`);
+                 message.error(`Must upload jpg or png images`);
+                 return Promise.reject(new Error('fail')).then();
 
             }
 
@@ -206,8 +207,8 @@ export const FormAdd = () => {
 
                 setLoading({ lImage: false, lBtn: false });
 
-
-                return message.error('Image must smaller than 2MB!');
+                message.error('Image must smaller than 2MB!');
+                return Promise.reject(new Error('fail')).then();
             }
             return isJpgOrPng && isLt2M;
 
