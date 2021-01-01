@@ -36,6 +36,7 @@ export const SearchForm = () => {
     }
     const cleanInput = () => {
         const input = document.querySelector('.input-search input[type="text"]');
+        console.log('cleanadasdasdsadasdasdasdasdasdasdasdas');
         input.value='';
         // show all audiobooks
         setSelectedAudioBook(s=>({...s, isAdded:true}));
