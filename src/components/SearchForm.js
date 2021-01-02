@@ -6,7 +6,7 @@ export const SearchForm = () => {
 
     const { setSelectedAudioBook, searchAudioobooks, setAudioBooks } = useContext(AudiobookContext);
 
-    const [items, setItems] = useState(["title", "authors", "cost", "duration"]);
+    const [items] = useState(["title", "authors", "cost", "duration"]);
     const [item, setitem] = useState(null)
 
     useEffect(() => {

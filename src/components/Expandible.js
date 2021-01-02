@@ -1,7 +1,6 @@
 import React from 'react'
 
 export const Expandible = ({ record }) => {
-    console.log(record);
     return (
 
         <div className="card mb-3">

@@ -99,13 +99,12 @@ button.ant-btn-primary {
 // upload image
 .ant-upload-list-picture .ant-upload-list-item-error,
 .ant-upload-list-picture-card .ant-upload-list-item-error {
-    border: 1px solid #5aff4d;
+    border: 1px solid #5aff4d !important;
 }
-
 .ant-upload-list-item-error,
 .ant-upload-list-item-error .ant-upload-text-icon>.anticon,
 .ant-upload-list-item-error .ant-upload-list-item-name {
-    color: #5aff4d;
+    color: #5aff4d !important;
 }
 
 .outer-btn-add-author .ant-form-item-control-input-content [type=button]:not(:disabled) {
