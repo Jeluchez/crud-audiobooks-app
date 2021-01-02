@@ -93,6 +93,32 @@ button.ant-btn-primary {
 
 }
 
+.table__details {
+    background: none;
+    color: $gray;
+
+     svg {
+        color: $white;
+        // width: 30px;
+    }
+}
+
+// BUTTON IN DETAILSPAGES
+.detail__return{
+    position: absolute;
+    right: rem(20);
+    left: rem(15);
+    width: 30px;
+    color: $black;
+    background: $primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 17px;
+    border-radius: 15px;
+    font-size: 17;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                               // MODAL BUTTON                              */
 /* -------------------------------------------------------------------------- */
@@ -101,6 +127,7 @@ button.ant-btn-primary {
 .ant-upload-list-picture-card .ant-upload-list-item-error {
     border: 1px solid #5aff4d !important;
 }
+
 .ant-upload-list-item-error,
 .ant-upload-list-item-error .ant-upload-text-icon>.anticon,
 .ant-upload-list-item-error .ant-upload-list-item-name {

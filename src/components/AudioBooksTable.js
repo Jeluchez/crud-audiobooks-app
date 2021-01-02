@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Table, Image } from 'antd';
-import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, EllipsisOutlined, ExclamationCircleOutlined, ExpandAltOutlined, EyeOutlined, InfoCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import confirm from 'antd/lib/modal/confirm';
 
@@ -9,6 +9,7 @@ import { fetchData, loadAudiobooks } from '../helper/fetch';
 import { mapData } from '../helper/iterateData';
 import { AudiobookContext } from '../contex/AudiobookContext';
 import { Expandible } from './Expandible';
+import { Link } from 'react-router-dom';
 
 const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
@@ -16,12 +17,12 @@ const columns = [
     { title: 'Updated', dataIndex: 'street_date', key: 'street_date', responsive: ['lg'], sorter: (a, b) => moment(a.dateToSort, 'DD-MM-YYYY, h:mm:ss') - moment(b.dateToSort, 'DD-MM-YYYY, h:mm:ss') },
     {
         title: 'Authors', dataIndex: 'authors', key: 'authors', responsive: ['sm'],
-        render: authors => authors.map((author,i) => (<div key={i} className="outer-author">{author}</div>))
+        render: authors => authors.map((author, i) => (<div key={i} className="outer-author">{author}</div>))
     },
     { title: 'Cost per play', dataIndex: 'cost_per_play', key: 'cost_per_play', responsive: ['md'], sorter: (a, b) => a.cost_per_play - b.cost_per_play },
     { title: 'Duration (h:m)', dataIndex: 'duration', key: 'duration', responsive: ['md'], sorter: (a, b) => moment(a.duration, 'HH:mm:ss') - moment(b.duration, 'HH:mm:ss') },
     {
-        title: 'Cover', dataIndex: 'cover', key: 'cover', responsive: ['lg'], render: cover => <div className="outer-image">
+        title: 'Cover', dataIndex: 'cover', key: 'cover', responsive: ['lg'], width: "70px", render: cover => <div className="outer-image">
             <Image
                 width={80}
                 src={cover}
@@ -29,6 +30,11 @@ const columns = [
                 alt={cover}
             /></div>,
     },
+    {
+        key: 'detail',
+        render: () => <Link to="/audiobook-details"><button className="table__details"><ExpandAltOutlined /></button></Link>,
+        width: '70px'
+    }
 ];
 export const AudioBooksTable = () => {
 
@@ -65,6 +71,7 @@ export const AudioBooksTable = () => {
         // Si hay algo seleccionando entonces asignelo a un audibook
         if (selectedRowKeys.length > 0) {
             setSelectedAudioBook(s => ({ ...s, selected: getRow(selectedRowKeys) }));
+            console.log(selectedAudioBook);
         }
         // si no hay nada entonces elimine ese audioobook
         else {
@@ -188,14 +195,14 @@ export const AudioBooksTable = () => {
                 rowSelection={rowSelection}
                 columns={columns}
                 dataSource={audiobooksData}
-                expandable={{
-                    expandedRowRender: record => <Expandible record={record}/>,
-                    rowExpandable: record => record.name !== 'Not Expandable',
-                }}
+                // expandable={{
+                //     expandedRowRender: record => <Expandible record={record}/>,
+                //     rowExpandable: record => record.name !== 'Not Expandable',
+                // }}
                 scroll={{ y: 400 }}
                 rowClassName={'table__row'}
                 loading={loading}
-               
+
             />;
 
         </div>
