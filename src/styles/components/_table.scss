@@ -195,7 +195,9 @@ a:not([href]):not([class]) {
     background: $light-black;
     color: #fff 
 }
-
+.ant-empty-description{
+    color: $white;   
+}
 /* -------------------------------------------------------------------------- */
 /*                              SECTION ANIMATION                             */
 /* -------------------------------------------------------------------------- */
