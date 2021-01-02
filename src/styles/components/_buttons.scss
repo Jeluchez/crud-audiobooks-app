@@ -17,10 +17,12 @@ button.ant-btn-primary {
         background: darken($primary, 10) !important;
     }
 }
-.btnsearch{
+
+.btnsearch {
     background: none;
     color: $white;
 }
+
 .bnts-operations {
     background: $light-black;
     padding: 7px 10px;
@@ -73,10 +75,11 @@ button.ant-btn-primary {
     border: 2px solid $gray;
     border-radius: 15px;
 
-    &:hover .btn-add-book{
-        transform: scale(2,2);
+    &:hover .btn-add-book {
+        transform: scale(2, 2);
         background: lighten($light-black, 10);
     }
+
     .btn-add-book {
         position: relative;
         font-size: rem(20);
@@ -84,7 +87,7 @@ button.ant-btn-primary {
         background-color: $light-black;
         padding: 3px 15px;
         border-radius: 15px;
-      
+
         transition: .2s all;
     }
 
@@ -93,6 +96,18 @@ button.ant-btn-primary {
 /* -------------------------------------------------------------------------- */
 /*                               // MODAL BUTTON                              */
 /* -------------------------------------------------------------------------- */
+// upload image
+.ant-upload-list-picture .ant-upload-list-item-error,
+.ant-upload-list-picture-card .ant-upload-list-item-error {
+    border: 1px solid #5aff4d;
+}
+
+.ant-upload-list-item-error,
+.ant-upload-list-item-error .ant-upload-text-icon>.anticon,
+.ant-upload-list-item-error .ant-upload-list-item-name {
+    color: #5aff4d;
+}
+
 .outer-btn-add-author .ant-form-item-control-input-content [type=button]:not(:disabled) {
     background: $light-black !important;
     color: $white;
