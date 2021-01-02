@@ -4,7 +4,7 @@ import { ItemsTypes } from './ItemsTypes';
 
 export const SearchForm = () => {
 
-    const {setSelectedAudioBook,searchAudioobooks, setAudioBooks } = useContext(AudiobookContext);
+    const { setSelectedAudioBook, searchAudioobooks, setAudioBooks } = useContext(AudiobookContext);
 
     const [items, setItems] = useState(["title", "authors", "cost", "duration"]);
     const [item, setitem] = useState(null)
@@ -27,7 +27,7 @@ export const SearchForm = () => {
     const handleCloseSearch = (e) => {
         e.preventDefault();
         const selectedItemContainer = document.querySelector('.selected-item-container');
-    
+
         selectedItemContainer.style.flexBasis = 0;
         selectedItemContainer.classList.add('hideWith');
 
@@ -37,18 +37,18 @@ export const SearchForm = () => {
     const cleanInput = () => {
         const input = document.querySelector('.input-search input[type="text"]');
         console.log('cleanadasdasdsadasdasdasdasdasdasdasdas');
-        input.value='';
+        input.value = '';
         // show all audiobooks
-        setSelectedAudioBook(s=>({...s, isAdded:true}));
+        setSelectedAudioBook(s => ({ ...s, isAdded: true }));
     }
     const handleSearch = async (e) => {
         e.preventDefault();
         const query = e.target.value;
 
-        const search = await searchAudioobooks(query,item);
-        setAudioBooks(s=>({...s, audiobooksData:search}))
+        const search = await searchAudioobooks(query, item);
+        setAudioBooks(s => ({ ...s, audiobooksData: search }))
         // si está vacio retorneme todos los audio libros
-        if(e.target.value === '') setSelectedAudioBook(s=>({...s, isAdded:true}))
+        if (e.target.value === '') setSelectedAudioBook(s => ({ ...s, isAdded: true }))
     }
 
     const handleFocus = () => {
@@ -66,7 +66,10 @@ export const SearchForm = () => {
                             }
                         </div>
                         <div className="input-search">
-                            <input type="text" placeholder="Search" className=" pl-1 w-100"
+                            <button className="btnsearch">
+                                <i className="fas fa-search"></i>
+                            </button>
+                            <input type="text" placeholder="Search" className=" w-100"
                                 onFocus={handleFocus}
                                 onChange={handleSearch}
                             />

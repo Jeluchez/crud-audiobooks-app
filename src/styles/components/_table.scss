@@ -9,8 +9,7 @@
 
     .table-row-selected {
         display: block;
-        background: $light-black;
-        border: 1px solid $light-gray;
+        background: $vino;
         margin-left: 5px;
         padding: 3px 10px;
         color: #fff;
@@ -147,8 +146,8 @@ a:not([href]):not([class]) {
 .outer-image {
     cursor: pointer;
     overflow: hidden;
-    width: rem(40);
-    height: rem(40);
+    width: rem(35);
+    height: rem(35);
     border-radius: 100%;
     margin: 0;
     img{
@@ -160,7 +159,7 @@ a:not([href]):not([class]) {
 }
 
 .imageTable {
-    max-width: 100%;
+    max-width: 80%;
 }
 
 // end table image
@@ -181,6 +180,20 @@ a:not([href]):not([class]) {
             display: inline !important;
         }
     }
+}
+.card-outer-image{
+    height: 150px;
+    overflow: hidden;
+    img{
+        max-width: 100%;
+    }
+}
+.card{
+    border: none;
+}
+.card-body{
+    background: $light-black;
+    color: #fff 
 }
 
 /* -------------------------------------------------------------------------- */

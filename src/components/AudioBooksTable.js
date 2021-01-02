@@ -8,11 +8,12 @@ import { FormContext } from '../contex/FormContext';
 import { fetchData, loadAudiobooks } from '../helper/fetch';
 import { mapData } from '../helper/iterateData';
 import { AudiobookContext } from '../contex/AudiobookContext';
+import { Expandible } from './Expandible';
 
 const columns = [
     { title: 'Title', dataIndex: 'title', key: 'title', sorter: (a, b) => a.title - b.title, },
     // { title: 'Conten Type', dataIndex: 'content-type', key: 'contentType', responsive: ['lg'] },
-    { title: 'Street Date', dataIndex: 'dateToSort', key: 'dateToSort', responsive: ['lg'], sorter: (a, b) => moment(a.dateToSort, 'DD-MM-YYYY, h:mm:ss') - moment(b.dateToSort, 'DD-MM-YYYY, h:mm:ss') },
+    { title: 'Updated', dataIndex: 'street_date', key: 'street_date', responsive: ['lg'], sorter: (a, b) => moment(a.dateToSort, 'DD-MM-YYYY, h:mm:ss') - moment(b.dateToSort, 'DD-MM-YYYY, h:mm:ss') },
     {
         title: 'Authors', dataIndex: 'authors', key: 'authors', responsive: ['sm'],
         render: authors => authors.map((author,i) => (<div key={i} className="outer-author">{author}</div>))
@@ -155,7 +156,7 @@ export const AudioBooksTable = () => {
                     {selectedRowKeys.length} row selected
                 </span>
                 <div className="table-usage-by-entry">
-                    <span>showing</span> 1-5 of 1000
+                    <span>showing</span> 1-{audiobooksData?.length} of {audiobooksData?.length}
                 </div>
 
                 {/* si no hay elemento seleccionado muestre el botton agregar */}
@@ -188,12 +189,13 @@ export const AudioBooksTable = () => {
                 columns={columns}
                 dataSource={audiobooksData}
                 expandable={{
-                    expandedRowRender: record => <p style={{ margin: 0 }}>Hello</p>,
+                    expandedRowRender: record => <Expandible record={record}/>,
                     rowExpandable: record => record.name !== 'Not Expandable',
                 }}
                 scroll={{ y: 400 }}
                 rowClassName={'table__row'}
                 loading={loading}
+               
             />;
 
         </div>

@@ -17,7 +17,10 @@ button.ant-btn-primary {
         background: darken($primary, 10) !important;
     }
 }
-
+.btnsearch{
+    background: none;
+    color: $white;
+}
 .bnts-operations {
     background: $light-black;
     padding: 7px 10px;

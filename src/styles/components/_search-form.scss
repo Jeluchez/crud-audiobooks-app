@@ -55,7 +55,7 @@
     input {
         background: $light-black;
         height: rem(30);
-        margin-left: rem(10);
+        margin-left: rem(5);
         transition: 0.2s all;
     }
 
@@ -68,7 +68,7 @@
 
 .btnclose {
     background: none;
-    opacity: 1;
+    color: $white;
 }
 
 .typeitem {
@@ -89,11 +89,15 @@
 }
 
 @media (min-width: $smBpWidth) {
-    .outer-contentype, .outer-search{
+
+    .outer-contentype,
+    .outer-search {
         display: flex;
         justify-content: center;
     }
-    .searchform__search, .searchform__contentype{
+
+    .searchform__search,
+    .searchform__contentype {
         width: 90%;
     }
 }
@@ -113,5 +117,17 @@
 
     100% {
         background: $primary;
+    }
+}
+
+.outer-search {
+    animation: 5s lightformSearch;
+}
+
+@keyframes lightformSearch {
+    from {
+        border-top: 1px solid $primary;
+        border-bottom: 1px solid $primary;
+        box-shadow: 0 0 5px $primary;
     }
 }

@@ -1,8 +1,13 @@
-#form-add-update{
-    label{
+#form-add-update {
+    label {
         color: $white;
     }
 }
-.ant-form .ant-form-item{
+
+.ant-form .ant-form-item {
     margin-bottom: 15px;
+}
+
+.ant-picker-suffix>* {
+    color: $white !important;
 }
