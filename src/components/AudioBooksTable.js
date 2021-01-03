@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Table, Image } from 'antd';
-import { DeleteOutlined, EditOutlined, EllipsisOutlined, ExclamationCircleOutlined, ExpandAltOutlined, EyeOutlined, InfoCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, ExpandAltOutlined, PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import confirm from 'antd/lib/modal/confirm';
 
 import { FormContext } from '../contex/FormContext';
 import { fetchData, loadAudiobooks } from '../helper/fetch';
-import { mapData } from '../helper/iterateData';
 import { AudiobookContext } from '../contex/AudiobookContext';
-import { Expandible } from './Expandible';
+
 import { Link } from 'react-router-dom';
 
 const columns = [
@@ -32,15 +31,18 @@ const columns = [
     },
     {
         key: 'detail',
-        render: () => <Link to="/audiobook-details"><button className="table__details"><ExpandAltOutlined /></button></Link>,
+        render: row => <Link to="/audiobook-details"><button id={row.key} className="table__details"><ExpandAltOutlined /></button></Link>,
         width: '70px'
     }
 ];
+
+
 export const AudioBooksTable = () => {
 
 
+
     const { showModal, form, onReset } = useContext(FormContext);
-    const { audioBooks, setAudioBooks, setSelectedAudioBook, selectedAudioBook } = useContext(AudiobookContext);
+    const { audioBooks, setAudioBooks, setSelectedAudioBook, selectedAudioBook, setAbDetail } = useContext(AudiobookContext);
 
     const [stateSelect, setStateSelect] = useState({
         selectedRowKeys: []
@@ -50,6 +52,19 @@ export const AudioBooksTable = () => {
     const { audiobooksData, loading } = audioBooks;
     // console.log(isAdded);
 
+    // get id
+    useEffect(() => {
+        window.addEventListener('click', handleGetKey);
+
+        function handleGetKey(e) {
+            const btnDetail = e.target.closest('button[id]')
+            if(btnDetail){
+                setAbDetail(audiobooksData.find((row) => row.key === btnDetail.id));
+            }
+        }
+        return () => window.removeEventListener('click', handleGetKey);
+
+    }, [setAbDetail,audiobooksData])
 
     useEffect(() => {
         loadAudiobooks().then((audiobookFromApi) => {

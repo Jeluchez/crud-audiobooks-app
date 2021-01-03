@@ -8,6 +8,7 @@ export const AudiobookContext = createContext();
 export const AudioBookProvider = ({ children }) => {
 
     const [audioBooks, setAudioBooks] = useState({ audiobooksData: null, loading: true });
+    const [abDetail, setAbDetail] = useState(null);
     const [selectedAudioBook, setSelectedAudioBook] = useState({
         selected: null,
         isAdded: false,
@@ -85,7 +86,9 @@ export const AudioBookProvider = ({ children }) => {
             setSelectedAudioBook,
             selectedAudioBook,
             searchAudioobooks,
-            loadAudiobooks
+            loadAudiobooks,
+            abDetail,
+            setAbDetail
         }}>
             { children}
         </AudiobookContext.Provider>

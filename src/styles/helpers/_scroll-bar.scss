@@ -1,8 +1,12 @@
-.ant-table-body,.ant-modal-wrap{
+html,body
+.ant-table-body,
+.ant-modal-wrap,
+.tape-content {
     &::-webkit-scrollbar {
         width: 7px;
-        
+
     }
+
     /* Track */
     &::-webkit-scrollbar-track {
         background: darken($black, 5);
@@ -17,5 +21,11 @@
     /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
         background: $gray;
+    }
+}
+
+.tape-content {
+    &::-webkit-scrollbar {
+        height: 8px;
     }
 }
